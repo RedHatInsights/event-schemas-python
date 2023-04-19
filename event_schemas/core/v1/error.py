@@ -1,11 +1,3 @@
-# To use this code, make sure you
-#
-#     import json
-#
-# and then, to convert JSON from a string, do
-#
-#     result = error_from_dict(json.loads(json_string))
-
 from enum import Enum
 from typing import Optional, Any, TypeVar, Type, cast
 
@@ -81,7 +73,8 @@ class ErrorClass:
         result["code"] = from_str(self.code)
         result["message"] = from_str(self.message)
         result["severity"] = to_enum(Severity, self.severity)
-        result["stack_trace"] = from_union([from_str, from_none], self.stack_trace)
+        if self.stack_trace is not None:
+            result["stack_trace"] = from_union([from_str, from_none], self.stack_trace)
         return result
 
 

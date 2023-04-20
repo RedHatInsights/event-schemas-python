@@ -7,6 +7,10 @@ updates:
     directory: "/"
     schedule:
       interval: "daily"
+    commit-message:
+      prefix: fix
+      prefix-development: build
+      include: "scope"
 
   # for quicktype updates
   - package-ecosystem: "npm"
@@ -18,3 +22,6 @@ updates:
     directory: "/"
     schedule:
       interval: "daily"
+    commit-message:
+      prefix: fix
+      include: "scope"

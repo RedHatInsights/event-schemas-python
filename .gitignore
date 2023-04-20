@@ -1,2 +1,6 @@
 node_modules/
 *.pyc
+/.idea
+/build
+/crc_event_schemas.egg-info
+/dist

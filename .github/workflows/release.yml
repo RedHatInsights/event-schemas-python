@@ -14,8 +14,8 @@ jobs:
       - id: release
         uses: google-github-actions/release-please-action@v3
         with:
-          release-type: go
-          package-name: RedHatInsights-event-schemas-go
+          release-type: python
+          package-name: RedHatInsights-event-schemas-python
   release-stable:
     needs: [ release ]
     runs-on: ubuntu-latest

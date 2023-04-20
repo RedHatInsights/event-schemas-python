@@ -16,10 +16,11 @@ jobs:
           node-version: 16
       - run: npm ci
       - run: npm run generate
-      - run: |
-          if [ -n "$(git status --porcelain)" ]; then
-            git add .
-            git config --global user.name ${{ github.actor }}
-            git config --global user.email '${{ github.actor }}@users.noreply.github.com'
-            git commit -a -m 'Regenerate types' && git push
-          fi
+      - name: Check if there are changes
+        id: changes
+        run: echo "changed=$(git status --porcelain | wc -l)" >> $GITHUB_OUTPUT
+      - uses: EndBug/add-and-commit@v9
+        if: steps.changes.outputs.changed != 0
+        with:
+          default_author: github_actions
+          message: "fix: Regenerate types"

@@ -1,3 +1,4 @@
+from uuid import UUID
 from typing import Any, List, Optional, TypeVar, Callable, Type, cast
 from datetime import datetime
 import dateutil.parser
@@ -42,11 +43,11 @@ def to_class(c: Type[T], x: Any) -> dict:
 class Policy:
     condition: str
     description: str
-    id: str
+    id: UUID
     name: str
     url: str
 
-    def __init__(self, condition: str, description: str, id: str, name: str, url: str) -> None:
+    def __init__(self, condition: str, description: str, id: UUID, name: str, url: str) -> None:
         self.condition = condition
         self.description = description
         self.id = id
@@ -58,7 +59,7 @@ class Policy:
         assert isinstance(obj, dict)
         condition = from_str(obj.get("condition"))
         description = from_str(obj.get("description"))
-        id = from_str(obj.get("id"))
+        id = UUID(obj.get("id"))
         name = from_str(obj.get("name"))
         url = from_str(obj.get("url"))
         return Policy(condition, description, id, name, url)
@@ -67,7 +68,7 @@ class Policy:
         result: dict = {}
         result["condition"] = from_str(self.condition)
         result["description"] = from_str(self.description)
-        result["id"] = from_str(self.id)
+        result["id"] = str(self.id)
         result["name"] = from_str(self.name)
         result["url"] = from_str(self.url)
         return result

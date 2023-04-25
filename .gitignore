@@ -4,3 +4,4 @@ node_modules/
 /build
 /crc_event_schemas.egg-info
 /dist
+/docs

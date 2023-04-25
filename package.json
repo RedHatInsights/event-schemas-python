@@ -1,7 +1,7 @@
 {
   "dependencies": {
     "quicktype": "^23.0.21",
-    "quicktype-core": "^23.0.19"
+    "quicktype-core": "^23.0.26"
   },
   "scripts": {
     "generate": "node scripts/generate.js"

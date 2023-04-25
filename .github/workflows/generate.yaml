@@ -25,3 +25,5 @@ jobs:
         with:
           default_author: github_actor
           message: "fix: Regenerate types"
+          committer_name: NachoBot
+          committer_email: nacho-bot@users.noreply.github.com

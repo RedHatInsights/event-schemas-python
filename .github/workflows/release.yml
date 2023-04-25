@@ -15,6 +15,7 @@ jobs:
         uses: google-github-actions/release-please-action@v3
         with:
           release-type: python
+          token: ${{ secrets.NACHO_BOT_TOKEN }}
           package-name: RedHatInsights-event-schemas-python
   release-stable:
     needs: [ release ]

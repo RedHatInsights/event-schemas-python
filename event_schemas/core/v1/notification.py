@@ -39,7 +39,7 @@ def to_class(c: Type[T], x: Any) -> dict:
 
 
 class Recipients:
-    """Notification recipients. Should be in a top-level field named "notification_recipients""""
+    """Notification recipients. Should be in a top-level field named "notification_recipients\""""
     """Setting to true ignores all the user preferences on this Recipient setting (It doesn’t
     affect other configuration that an Administrator sets on their Notification settings).
     Setting to false honors the user preferences.

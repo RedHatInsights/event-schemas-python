@@ -1,0 +1,22 @@
+name: Build & Test
+
+on: [push, pull_request, workflow_dispatch]
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          submodules: true
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.x"
+          cache: pip
+      - name: Install my[py] and deps
+        run: pip install mypy types-python-dateutil
+      - name: Run my[py]
+        run: python -m mypy event_schemas

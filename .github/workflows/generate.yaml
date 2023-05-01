@@ -20,6 +20,12 @@ jobs:
       - name: Check if there are changes
         id: changes
         run: echo "changed=$(git status --porcelain | wc -l)" >> $GITHUB_OUTPUT
+      - name: Install my[py] and deps
+        if: steps.changes.outputs.changed != 0
+        run: pip install mypy types-python-dateutil
+      - name: Run my[py]
+        if: steps.changes.outputs.changed != 0
+        run: python -m mypy event_schemas
       - uses: EndBug/add-and-commit@v9
         if: steps.changes.outputs.changed != 0
         with:

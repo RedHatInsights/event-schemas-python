@@ -85,9 +85,9 @@ class AdvisorRecommendation:
 class RHELSystemTag:
     key: str
     namespace: str
-    value: str
+    value: Optional[str]
 
-    def __init__(self, key: str, namespace: str, value: str) -> None:
+    def __init__(self, key: str, namespace: str, value: Optional[str]) -> None:
         self.key = key
         self.namespace = namespace
         self.value = value
@@ -97,14 +97,15 @@ class RHELSystemTag:
         assert isinstance(obj, dict)
         key = from_str(obj.get("key"))
         namespace = from_str(obj.get("namespace"))
-        value = from_str(obj.get("value"))
+        value = from_union([from_str, from_none], obj.get("value"))
         return RHELSystemTag(key, namespace, value)
 
     def to_dict(self) -> dict:
         result: dict = {}
         result["key"] = from_str(self.key)
         result["namespace"] = from_str(self.namespace)
-        result["value"] = from_str(self.value)
+        if self.value is not None:
+            result["value"] = from_union([from_str, from_none], self.value)
         return result
 
 

@@ -1,5 +1,5 @@
 from uuid import UUID
-from typing import Any, List, Optional, TypeVar, Callable, Type, cast
+from typing import Any, Optional, List, TypeVar, Callable, Type, cast
 from datetime import datetime
 import dateutil.parser
 
@@ -10,15 +10,6 @@ T = TypeVar("T")
 def from_str(x: Any) -> str:
     assert isinstance(x, str)
     return x
-
-
-def from_datetime(x: Any) -> datetime:
-    return dateutil.parser.parse(x)
-
-
-def from_list(f: Callable[[Any], T], x: Any) -> List[T]:
-    assert isinstance(x, list)
-    return [f(y) for y in x]
 
 
 def from_none(x: Any) -> Any:
@@ -33,6 +24,15 @@ def from_union(fs, x):
         except:
             pass
     assert False
+
+
+def from_datetime(x: Any) -> datetime:
+    return dateutil.parser.parse(x)
+
+
+def from_list(f: Callable[[Any], T], x: Any) -> List[T]:
+    assert isinstance(x, list)
+    return [f(y) for y in x]
 
 
 def to_class(c: Type[T], x: Any) -> dict:
@@ -77,9 +77,9 @@ class Policy:
 class RHELSystemTag:
     key: str
     namespace: str
-    value: str
+    value: Optional[str]
 
-    def __init__(self, key: str, namespace: str, value: str) -> None:
+    def __init__(self, key: str, namespace: str, value: Optional[str]) -> None:
         self.key = key
         self.namespace = namespace
         self.value = value
@@ -89,14 +89,15 @@ class RHELSystemTag:
         assert isinstance(obj, dict)
         key = from_str(obj.get("key"))
         namespace = from_str(obj.get("namespace"))
-        value = from_str(obj.get("value"))
+        value = from_union([from_str, from_none], obj.get("value"))
         return RHELSystemTag(key, namespace, value)
 
     def to_dict(self) -> dict:
         result: dict = {}
         result["key"] = from_str(self.key)
         result["namespace"] = from_str(self.namespace)
-        result["value"] = from_str(self.value)
+        if self.value is not None:
+            result["value"] = from_union([from_str, from_none], self.value)
         return result
 
 

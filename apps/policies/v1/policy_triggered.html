@@ -27,7 +27,7 @@
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">from uuid import UUID
-from typing import Any, List, Optional, TypeVar, Callable, Type, cast
+from typing import Any, Optional, List, TypeVar, Callable, Type, cast
 from datetime import datetime
 import dateutil.parser
 
@@ -38,15 +38,6 @@ T = TypeVar(&#34;T&#34;)
 def from_str(x: Any) -&gt; str:
     assert isinstance(x, str)
     return x
-
-
-def from_datetime(x: Any) -&gt; datetime:
-    return dateutil.parser.parse(x)
-
-
-def from_list(f: Callable[[Any], T], x: Any) -&gt; List[T]:
-    assert isinstance(x, list)
-    return [f(y) for y in x]
 
 
 def from_none(x: Any) -&gt; Any:
@@ -61,6 +52,15 @@ def from_union(fs, x):
         except:
             pass
     assert False
+
+
+def from_datetime(x: Any) -&gt; datetime:
+    return dateutil.parser.parse(x)
+
+
+def from_list(f: Callable[[Any], T], x: Any) -&gt; List[T]:
+    assert isinstance(x, list)
+    return [f(y) for y in x]
 
 
 def to_class(c: Type[T], x: Any) -&gt; dict:
@@ -105,9 +105,9 @@ class Policy:
 class RHELSystemTag:
     key: str
     namespace: str
-    value: str
+    value: Optional[str]
 
-    def __init__(self, key: str, namespace: str, value: str) -&gt; None:
+    def __init__(self, key: str, namespace: str, value: Optional[str]) -&gt; None:
         self.key = key
         self.namespace = namespace
         self.value = value
@@ -117,14 +117,15 @@ class RHELSystemTag:
         assert isinstance(obj, dict)
         key = from_str(obj.get(&#34;key&#34;))
         namespace = from_str(obj.get(&#34;namespace&#34;))
-        value = from_str(obj.get(&#34;value&#34;))
+        value = from_union([from_str, from_none], obj.get(&#34;value&#34;))
         return RHELSystemTag(key, namespace, value)
 
     def to_dict(self) -&gt; dict:
         result: dict = {}
         result[&#34;key&#34;] = from_str(self.key)
         result[&#34;namespace&#34;] = from_str(self.namespace)
-        result[&#34;value&#34;] = from_str(self.value)
+        if self.value is not None:
+            result[&#34;value&#34;] = from_union([from_str, from_none], self.value)
         return result
 
 
@@ -530,7 +531,7 @@ def from_dict(obj: Any) -&gt; &#39;PolicyTriggered&#39;:
 </dd>
 <dt id="event_schemas.apps.policies.v1.policy_triggered.RHELSystemTag"><code class="flex name class">
 <span>class <span class="ident">RHELSystemTag</span></span>
-<span>(</span><span>key: str, namespace: str, value: str)</span>
+<span>(</span><span>key: str, namespace: str, value: Optional[str])</span>
 </code></dt>
 <dd>
 <div class="desc"></div>
@@ -541,9 +542,9 @@ def from_dict(obj: Any) -&gt; &#39;PolicyTriggered&#39;:
 <pre><code class="python">class RHELSystemTag:
     key: str
     namespace: str
-    value: str
+    value: Optional[str]
 
-    def __init__(self, key: str, namespace: str, value: str) -&gt; None:
+    def __init__(self, key: str, namespace: str, value: Optional[str]) -&gt; None:
         self.key = key
         self.namespace = namespace
         self.value = value
@@ -553,14 +554,15 @@ def from_dict(obj: Any) -&gt; &#39;PolicyTriggered&#39;:
         assert isinstance(obj, dict)
         key = from_str(obj.get(&#34;key&#34;))
         namespace = from_str(obj.get(&#34;namespace&#34;))
-        value = from_str(obj.get(&#34;value&#34;))
+        value = from_union([from_str, from_none], obj.get(&#34;value&#34;))
         return RHELSystemTag(key, namespace, value)
 
     def to_dict(self) -&gt; dict:
         result: dict = {}
         result[&#34;key&#34;] = from_str(self.key)
         result[&#34;namespace&#34;] = from_str(self.namespace)
-        result[&#34;value&#34;] = from_str(self.value)
+        if self.value is not None:
+            result[&#34;value&#34;] = from_union([from_str, from_none], self.value)
         return result</code></pre>
 </details>
 <h3>Class variables</h3>
@@ -573,7 +575,7 @@ def from_dict(obj: Any) -&gt; &#39;PolicyTriggered&#39;:
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="event_schemas.apps.policies.v1.policy_triggered.RHELSystemTag.value"><code class="name">var <span class="ident">value</span> : str</code></dt>
+<dt id="event_schemas.apps.policies.v1.policy_triggered.RHELSystemTag.value"><code class="name">var <span class="ident">value</span> : Optional[str]</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
@@ -594,7 +596,7 @@ def from_dict(obj: Any) -&gt; &#39;RHELSystemTag&#39;:
     assert isinstance(obj, dict)
     key = from_str(obj.get(&#34;key&#34;))
     namespace = from_str(obj.get(&#34;namespace&#34;))
-    value = from_str(obj.get(&#34;value&#34;))
+    value = from_union([from_str, from_none], obj.get(&#34;value&#34;))
     return RHELSystemTag(key, namespace, value)</code></pre>
 </details>
 </dd>
@@ -614,7 +616,8 @@ def from_dict(obj: Any) -&gt; &#39;RHELSystemTag&#39;:
     result: dict = {}
     result[&#34;key&#34;] = from_str(self.key)
     result[&#34;namespace&#34;] = from_str(self.namespace)
-    result[&#34;value&#34;] = from_str(self.value)
+    if self.value is not None:
+        result[&#34;value&#34;] = from_union([from_str, from_none], self.value)
     return result</code></pre>
 </details>
 </dd>

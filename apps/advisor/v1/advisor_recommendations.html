@@ -113,9 +113,9 @@ class AdvisorRecommendation:
 class RHELSystemTag:
     key: str
     namespace: str
-    value: str
+    value: Optional[str]
 
-    def __init__(self, key: str, namespace: str, value: str) -&gt; None:
+    def __init__(self, key: str, namespace: str, value: Optional[str]) -&gt; None:
         self.key = key
         self.namespace = namespace
         self.value = value
@@ -125,14 +125,15 @@ class RHELSystemTag:
         assert isinstance(obj, dict)
         key = from_str(obj.get(&#34;key&#34;))
         namespace = from_str(obj.get(&#34;namespace&#34;))
-        value = from_str(obj.get(&#34;value&#34;))
+        value = from_union([from_str, from_none], obj.get(&#34;value&#34;))
         return RHELSystemTag(key, namespace, value)
 
     def to_dict(self) -&gt; dict:
         result: dict = {}
         result[&#34;key&#34;] = from_str(self.key)
         result[&#34;namespace&#34;] = from_str(self.namespace)
-        result[&#34;value&#34;] = from_str(self.value)
+        if self.value is not None:
+            result[&#34;value&#34;] = from_union([from_str, from_none], self.value)
         return result
 
 
@@ -711,7 +712,7 @@ def from_dict(obj: Any) -&gt; &#39;RHELSystem&#39;:
 </dd>
 <dt id="event_schemas.apps.advisor.v1.advisor_recommendations.RHELSystemTag"><code class="flex name class">
 <span>class <span class="ident">RHELSystemTag</span></span>
-<span>(</span><span>key: str, namespace: str, value: str)</span>
+<span>(</span><span>key: str, namespace: str, value: Optional[str])</span>
 </code></dt>
 <dd>
 <div class="desc"></div>
@@ -722,9 +723,9 @@ def from_dict(obj: Any) -&gt; &#39;RHELSystem&#39;:
 <pre><code class="python">class RHELSystemTag:
     key: str
     namespace: str
-    value: str
+    value: Optional[str]
 
-    def __init__(self, key: str, namespace: str, value: str) -&gt; None:
+    def __init__(self, key: str, namespace: str, value: Optional[str]) -&gt; None:
         self.key = key
         self.namespace = namespace
         self.value = value
@@ -734,14 +735,15 @@ def from_dict(obj: Any) -&gt; &#39;RHELSystem&#39;:
         assert isinstance(obj, dict)
         key = from_str(obj.get(&#34;key&#34;))
         namespace = from_str(obj.get(&#34;namespace&#34;))
-        value = from_str(obj.get(&#34;value&#34;))
+        value = from_union([from_str, from_none], obj.get(&#34;value&#34;))
         return RHELSystemTag(key, namespace, value)
 
     def to_dict(self) -&gt; dict:
         result: dict = {}
         result[&#34;key&#34;] = from_str(self.key)
         result[&#34;namespace&#34;] = from_str(self.namespace)
-        result[&#34;value&#34;] = from_str(self.value)
+        if self.value is not None:
+            result[&#34;value&#34;] = from_union([from_str, from_none], self.value)
         return result</code></pre>
 </details>
 <h3>Class variables</h3>
@@ -754,7 +756,7 @@ def from_dict(obj: Any) -&gt; &#39;RHELSystem&#39;:
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="event_schemas.apps.advisor.v1.advisor_recommendations.RHELSystemTag.value"><code class="name">var <span class="ident">value</span> : str</code></dt>
+<dt id="event_schemas.apps.advisor.v1.advisor_recommendations.RHELSystemTag.value"><code class="name">var <span class="ident">value</span> : Optional[str]</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
@@ -775,7 +777,7 @@ def from_dict(obj: Any) -&gt; &#39;RHELSystemTag&#39;:
     assert isinstance(obj, dict)
     key = from_str(obj.get(&#34;key&#34;))
     namespace = from_str(obj.get(&#34;namespace&#34;))
-    value = from_str(obj.get(&#34;value&#34;))
+    value = from_union([from_str, from_none], obj.get(&#34;value&#34;))
     return RHELSystemTag(key, namespace, value)</code></pre>
 </details>
 </dd>
@@ -795,7 +797,8 @@ def from_dict(obj: Any) -&gt; &#39;RHELSystemTag&#39;:
     result: dict = {}
     result[&#34;key&#34;] = from_str(self.key)
     result[&#34;namespace&#34;] = from_str(self.namespace)
-    result[&#34;value&#34;] = from_str(self.value)
+    if self.value is not None:
+        result[&#34;value&#34;] = from_union([from_str, from_none], self.value)
     return result</code></pre>
 </details>
 </dd>

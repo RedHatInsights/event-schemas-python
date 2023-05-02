@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
 <meta name="generator" content="pdoc 0.10.0" />
-<title>event_schemas.apps.export-service.v1.export_request API documentation</title>
+<title>event_schemas.apps.export_service.v1.export_request API documentation</title>
 <meta name="description" content="" />
 <link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
 <link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
@@ -19,7 +19,7 @@
 <main>
 <article id="content">
 <header>
-<h1 class="title">Module <code>event_schemas.apps.export-service.v1.export_request</code></h1>
+<h1 class="title">Module <code>event_schemas.apps.export_service.v1.export_request</code></h1>
 </header>
 <section id="section-intro">
 <details class="source">
@@ -156,8 +156,8 @@ def export_request_to_dict(x: ExportRequest) -&gt; Any:
 <section>
 <h2 class="section-title" id="header-functions">Functions</h2>
 <dl>
-<dt id="event_schemas.apps.export-service.v1.export_request.export_request_from_dict"><code class="name flex">
-<span>def <span class="ident">export_request_from_dict</span></span>(<span>s: Any) ‑> event_schemas.apps.export-service.v1.export_request.ExportRequest</span>
+<dt id="event_schemas.apps.export_service.v1.export_request.export_request_from_dict"><code class="name flex">
+<span>def <span class="ident">export_request_from_dict</span></span>(<span>s: Any) ‑> <a title="event_schemas.apps.export_service.v1.export_request.ExportRequest" href="#event_schemas.apps.export_service.v1.export_request.ExportRequest">ExportRequest</a></span>
 </code></dt>
 <dd>
 <div class="desc"></div>
@@ -169,8 +169,8 @@ def export_request_to_dict(x: ExportRequest) -&gt; Any:
     return ExportRequest.from_dict(s)</code></pre>
 </details>
 </dd>
-<dt id="event_schemas.apps.export-service.v1.export_request.export_request_to_dict"><code class="name flex">
-<span>def <span class="ident">export_request_to_dict</span></span>(<span>x: event_schemas.apps.export-service.v1.export_request.ExportRequest) ‑> Any</span>
+<dt id="event_schemas.apps.export_service.v1.export_request.export_request_to_dict"><code class="name flex">
+<span>def <span class="ident">export_request_to_dict</span></span>(<span>x: <a title="event_schemas.apps.export_service.v1.export_request.ExportRequest" href="#event_schemas.apps.export_service.v1.export_request.ExportRequest">ExportRequest</a>) ‑> Any</span>
 </code></dt>
 <dd>
 <div class="desc"></div>
@@ -182,7 +182,7 @@ def export_request_to_dict(x: ExportRequest) -&gt; Any:
     return to_class(ExportRequest, x)</code></pre>
 </details>
 </dd>
-<dt id="event_schemas.apps.export-service.v1.export_request.from_dict"><code class="name flex">
+<dt id="event_schemas.apps.export_service.v1.export_request.from_dict"><code class="name flex">
 <span>def <span class="ident">from_dict</span></span>(<span>f: Callable[[Any], ~T], x: Any) ‑> Dict[str, ~T]</span>
 </code></dt>
 <dd>
@@ -196,7 +196,7 @@ def export_request_to_dict(x: ExportRequest) -&gt; Any:
     return { k: f(v) for (k, v) in x.items() }</code></pre>
 </details>
 </dd>
-<dt id="event_schemas.apps.export-service.v1.export_request.from_none"><code class="name flex">
+<dt id="event_schemas.apps.export_service.v1.export_request.from_none"><code class="name flex">
 <span>def <span class="ident">from_none</span></span>(<span>x: Any) ‑> Any</span>
 </code></dt>
 <dd>
@@ -210,7 +210,7 @@ def export_request_to_dict(x: ExportRequest) -&gt; Any:
     return x</code></pre>
 </details>
 </dd>
-<dt id="event_schemas.apps.export-service.v1.export_request.from_str"><code class="name flex">
+<dt id="event_schemas.apps.export_service.v1.export_request.from_str"><code class="name flex">
 <span>def <span class="ident">from_str</span></span>(<span>x: Any) ‑> str</span>
 </code></dt>
 <dd>
@@ -224,7 +224,7 @@ def export_request_to_dict(x: ExportRequest) -&gt; Any:
     return x</code></pre>
 </details>
 </dd>
-<dt id="event_schemas.apps.export-service.v1.export_request.from_union"><code class="name flex">
+<dt id="event_schemas.apps.export_service.v1.export_request.from_union"><code class="name flex">
 <span>def <span class="ident">from_union</span></span>(<span>fs, x)</span>
 </code></dt>
 <dd>
@@ -242,7 +242,7 @@ def export_request_to_dict(x: ExportRequest) -&gt; Any:
     assert False</code></pre>
 </details>
 </dd>
-<dt id="event_schemas.apps.export-service.v1.export_request.to_class"><code class="name flex">
+<dt id="event_schemas.apps.export_service.v1.export_request.to_class"><code class="name flex">
 <span>def <span class="ident">to_class</span></span>(<span>c: Type[~T], x: Any) ‑> dict</span>
 </code></dt>
 <dd>
@@ -256,7 +256,7 @@ def export_request_to_dict(x: ExportRequest) -&gt; Any:
     return cast(Any, x).to_dict()</code></pre>
 </details>
 </dd>
-<dt id="event_schemas.apps.export-service.v1.export_request.to_enum"><code class="name flex">
+<dt id="event_schemas.apps.export_service.v1.export_request.to_enum"><code class="name flex">
 <span>def <span class="ident">to_enum</span></span>(<span>c: Type[~EnumT], x: Any) ‑> ~EnumT</span>
 </code></dt>
 <dd>
@@ -275,9 +275,9 @@ def export_request_to_dict(x: ExportRequest) -&gt; Any:
 <section>
 <h2 class="section-title" id="header-classes">Classes</h2>
 <dl>
-<dt id="event_schemas.apps.export-service.v1.export_request.ExportRequest"><code class="flex name class">
+<dt id="event_schemas.apps.export_service.v1.export_request.ExportRequest"><code class="flex name class">
 <span>class <span class="ident">ExportRequest</span></span>
-<span>(</span><span>export_request: event_schemas.apps.export-service.v1.export_request.ExportRequestClass)</span>
+<span>(</span><span>export_request: <a title="event_schemas.apps.export_service.v1.export_request.ExportRequestClass" href="#event_schemas.apps.export_service.v1.export_request.ExportRequestClass">ExportRequestClass</a>)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Event data for data export requests.</p></div>
@@ -306,15 +306,15 @@ def export_request_to_dict(x: ExportRequest) -&gt; Any:
 </details>
 <h3>Class variables</h3>
 <dl>
-<dt id="event_schemas.apps.export-service.v1.export_request.ExportRequest.export_request"><code class="name">var <span class="ident">export_request</span> : event_schemas.apps.export-service.v1.export_request.ExportRequestClass</code></dt>
+<dt id="event_schemas.apps.export_service.v1.export_request.ExportRequest.export_request"><code class="name">var <span class="ident">export_request</span> : <a title="event_schemas.apps.export_service.v1.export_request.ExportRequestClass" href="#event_schemas.apps.export_service.v1.export_request.ExportRequestClass">ExportRequestClass</a></code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
 </dl>
 <h3>Static methods</h3>
 <dl>
-<dt id="event_schemas.apps.export-service.v1.export_request.ExportRequest.from_dict"><code class="name flex">
-<span>def <span class="ident">from_dict</span></span>(<span>obj: Any) ‑> event_schemas.apps.export-service.v1.export_request.ExportRequest</span>
+<dt id="event_schemas.apps.export_service.v1.export_request.ExportRequest.from_dict"><code class="name flex">
+<span>def <span class="ident">from_dict</span></span>(<span>obj: Any) ‑> <a title="event_schemas.apps.export_service.v1.export_request.ExportRequest" href="#event_schemas.apps.export_service.v1.export_request.ExportRequest">ExportRequest</a></span>
 </code></dt>
 <dd>
 <div class="desc"></div>
@@ -332,7 +332,7 @@ def from_dict(obj: Any) -&gt; &#39;ExportRequest&#39;:
 </dl>
 <h3>Methods</h3>
 <dl>
-<dt id="event_schemas.apps.export-service.v1.export_request.ExportRequest.to_dict"><code class="name flex">
+<dt id="event_schemas.apps.export_service.v1.export_request.ExportRequest.to_dict"><code class="name flex">
 <span>def <span class="ident">to_dict</span></span>(<span>self) ‑> dict</span>
 </code></dt>
 <dd>
@@ -349,9 +349,9 @@ def from_dict(obj: Any) -&gt; &#39;ExportRequest&#39;:
 </dd>
 </dl>
 </dd>
-<dt id="event_schemas.apps.export-service.v1.export_request.ExportRequestClass"><code class="flex name class">
+<dt id="event_schemas.apps.export_service.v1.export_request.ExportRequestClass"><code class="flex name class">
 <span>class <span class="ident">ExportRequestClass</span></span>
-<span>(</span><span>application: str, filters: Optional[Dict[str, Any]], format: event_schemas.apps.export-service.v1.export_request.Format, resource: str, uuid: uuid.UUID, x_rh_identity: str)</span>
+<span>(</span><span>application: str, filters: Optional[Dict[str, Any]], format: <a title="event_schemas.apps.export_service.v1.export_request.Format" href="#event_schemas.apps.export_service.v1.export_request.Format">Format</a>, resource: str, uuid: uuid.UUID, x_rh_identity: str)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>A request for data to be exported</p></div>
@@ -406,35 +406,35 @@ def from_dict(obj: Any) -&gt; &#39;ExportRequest&#39;:
 </details>
 <h3>Class variables</h3>
 <dl>
-<dt id="event_schemas.apps.export-service.v1.export_request.ExportRequestClass.application"><code class="name">var <span class="ident">application</span> : str</code></dt>
+<dt id="event_schemas.apps.export_service.v1.export_request.ExportRequestClass.application"><code class="name">var <span class="ident">application</span> : str</code></dt>
 <dd>
 <div class="desc"><p>The filters to be applied to the data</p></div>
 </dd>
-<dt id="event_schemas.apps.export-service.v1.export_request.ExportRequestClass.filters"><code class="name">var <span class="ident">filters</span> : Optional[Dict[str, Any]]</code></dt>
+<dt id="event_schemas.apps.export_service.v1.export_request.ExportRequestClass.filters"><code class="name">var <span class="ident">filters</span> : Optional[Dict[str, Any]]</code></dt>
 <dd>
 <div class="desc"><p>The format of the data to be exported</p></div>
 </dd>
-<dt id="event_schemas.apps.export-service.v1.export_request.ExportRequestClass.format"><code class="name">var <span class="ident">format</span> : event_schemas.apps.export-service.v1.export_request.Format</code></dt>
+<dt id="event_schemas.apps.export_service.v1.export_request.ExportRequestClass.format"><code class="name">var <span class="ident">format</span> : <a title="event_schemas.apps.export_service.v1.export_request.Format" href="#event_schemas.apps.export_service.v1.export_request.Format">Format</a></code></dt>
 <dd>
 <div class="desc"><p>The resource to be exported</p></div>
 </dd>
-<dt id="event_schemas.apps.export-service.v1.export_request.ExportRequestClass.resource"><code class="name">var <span class="ident">resource</span> : str</code></dt>
+<dt id="event_schemas.apps.export_service.v1.export_request.ExportRequestClass.resource"><code class="name">var <span class="ident">resource</span> : str</code></dt>
 <dd>
 <div class="desc"><p>A unique identifier for the request</p></div>
 </dd>
-<dt id="event_schemas.apps.export-service.v1.export_request.ExportRequestClass.uuid"><code class="name">var <span class="ident">uuid</span> : uuid.UUID</code></dt>
+<dt id="event_schemas.apps.export_service.v1.export_request.ExportRequestClass.uuid"><code class="name">var <span class="ident">uuid</span> : uuid.UUID</code></dt>
 <dd>
 <div class="desc"><p>The Base64-encoded JSON identity header of the user making the request</p></div>
 </dd>
-<dt id="event_schemas.apps.export-service.v1.export_request.ExportRequestClass.x_rh_identity"><code class="name">var <span class="ident">x_rh_identity</span> : str</code></dt>
+<dt id="event_schemas.apps.export_service.v1.export_request.ExportRequestClass.x_rh_identity"><code class="name">var <span class="ident">x_rh_identity</span> : str</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
 </dl>
 <h3>Static methods</h3>
 <dl>
-<dt id="event_schemas.apps.export-service.v1.export_request.ExportRequestClass.from_dict"><code class="name flex">
-<span>def <span class="ident">from_dict</span></span>(<span>obj: Any) ‑> event_schemas.apps.export-service.v1.export_request.ExportRequestClass</span>
+<dt id="event_schemas.apps.export_service.v1.export_request.ExportRequestClass.from_dict"><code class="name flex">
+<span>def <span class="ident">from_dict</span></span>(<span>obj: Any) ‑> <a title="event_schemas.apps.export_service.v1.export_request.ExportRequestClass" href="#event_schemas.apps.export_service.v1.export_request.ExportRequestClass">ExportRequestClass</a></span>
 </code></dt>
 <dd>
 <div class="desc"></div>
@@ -457,7 +457,7 @@ def from_dict(obj: Any) -&gt; &#39;ExportRequestClass&#39;:
 </dl>
 <h3>Methods</h3>
 <dl>
-<dt id="event_schemas.apps.export-service.v1.export_request.ExportRequestClass.to_dict"><code class="name flex">
+<dt id="event_schemas.apps.export_service.v1.export_request.ExportRequestClass.to_dict"><code class="name flex">
 <span>def <span class="ident">to_dict</span></span>(<span>self) ‑> dict</span>
 </code></dt>
 <dd>
@@ -480,7 +480,7 @@ def from_dict(obj: Any) -&gt; &#39;ExportRequestClass&#39;:
 </dd>
 </dl>
 </dd>
-<dt id="event_schemas.apps.export-service.v1.export_request.Format"><code class="flex name class">
+<dt id="event_schemas.apps.export_service.v1.export_request.Format"><code class="flex name class">
 <span>class <span class="ident">Format</span></span>
 <span>(</span><span>*args, **kwds)</span>
 </code></dt>
@@ -501,11 +501,11 @@ def from_dict(obj: Any) -&gt; &#39;ExportRequestClass&#39;:
 </ul>
 <h3>Class variables</h3>
 <dl>
-<dt id="event_schemas.apps.export-service.v1.export_request.Format.CSV"><code class="name">var <span class="ident">CSV</span></code></dt>
+<dt id="event_schemas.apps.export_service.v1.export_request.Format.CSV"><code class="name">var <span class="ident">CSV</span></code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="event_schemas.apps.export-service.v1.export_request.Format.JSON"><code class="name">var <span class="ident">JSON</span></code></dt>
+<dt id="event_schemas.apps.export_service.v1.export_request.Format.JSON"><code class="name">var <span class="ident">JSON</span></code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
@@ -522,49 +522,49 @@ def from_dict(obj: Any) -&gt; &#39;ExportRequestClass&#39;:
 <ul id="index">
 <li><h3>Super-module</h3>
 <ul>
-<li><code><a title="event_schemas.apps.export-service.v1" href="index.html">event_schemas.apps.export-service.v1</a></code></li>
+<li><code><a title="event_schemas.apps.export_service.v1" href="index.html">event_schemas.apps.export_service.v1</a></code></li>
 </ul>
 </li>
 <li><h3><a href="#header-functions">Functions</a></h3>
 <ul class="">
-<li><code><a title="event_schemas.apps.export-service.v1.export_request.export_request_from_dict" href="#event_schemas.apps.export-service.v1.export_request.export_request_from_dict">export_request_from_dict</a></code></li>
-<li><code><a title="event_schemas.apps.export-service.v1.export_request.export_request_to_dict" href="#event_schemas.apps.export-service.v1.export_request.export_request_to_dict">export_request_to_dict</a></code></li>
-<li><code><a title="event_schemas.apps.export-service.v1.export_request.from_dict" href="#event_schemas.apps.export-service.v1.export_request.from_dict">from_dict</a></code></li>
-<li><code><a title="event_schemas.apps.export-service.v1.export_request.from_none" href="#event_schemas.apps.export-service.v1.export_request.from_none">from_none</a></code></li>
-<li><code><a title="event_schemas.apps.export-service.v1.export_request.from_str" href="#event_schemas.apps.export-service.v1.export_request.from_str">from_str</a></code></li>
-<li><code><a title="event_schemas.apps.export-service.v1.export_request.from_union" href="#event_schemas.apps.export-service.v1.export_request.from_union">from_union</a></code></li>
-<li><code><a title="event_schemas.apps.export-service.v1.export_request.to_class" href="#event_schemas.apps.export-service.v1.export_request.to_class">to_class</a></code></li>
-<li><code><a title="event_schemas.apps.export-service.v1.export_request.to_enum" href="#event_schemas.apps.export-service.v1.export_request.to_enum">to_enum</a></code></li>
+<li><code><a title="event_schemas.apps.export_service.v1.export_request.export_request_from_dict" href="#event_schemas.apps.export_service.v1.export_request.export_request_from_dict">export_request_from_dict</a></code></li>
+<li><code><a title="event_schemas.apps.export_service.v1.export_request.export_request_to_dict" href="#event_schemas.apps.export_service.v1.export_request.export_request_to_dict">export_request_to_dict</a></code></li>
+<li><code><a title="event_schemas.apps.export_service.v1.export_request.from_dict" href="#event_schemas.apps.export_service.v1.export_request.from_dict">from_dict</a></code></li>
+<li><code><a title="event_schemas.apps.export_service.v1.export_request.from_none" href="#event_schemas.apps.export_service.v1.export_request.from_none">from_none</a></code></li>
+<li><code><a title="event_schemas.apps.export_service.v1.export_request.from_str" href="#event_schemas.apps.export_service.v1.export_request.from_str">from_str</a></code></li>
+<li><code><a title="event_schemas.apps.export_service.v1.export_request.from_union" href="#event_schemas.apps.export_service.v1.export_request.from_union">from_union</a></code></li>
+<li><code><a title="event_schemas.apps.export_service.v1.export_request.to_class" href="#event_schemas.apps.export_service.v1.export_request.to_class">to_class</a></code></li>
+<li><code><a title="event_schemas.apps.export_service.v1.export_request.to_enum" href="#event_schemas.apps.export_service.v1.export_request.to_enum">to_enum</a></code></li>
 </ul>
 </li>
 <li><h3><a href="#header-classes">Classes</a></h3>
 <ul>
 <li>
-<h4><code><a title="event_schemas.apps.export-service.v1.export_request.ExportRequest" href="#event_schemas.apps.export-service.v1.export_request.ExportRequest">ExportRequest</a></code></h4>
+<h4><code><a title="event_schemas.apps.export_service.v1.export_request.ExportRequest" href="#event_schemas.apps.export_service.v1.export_request.ExportRequest">ExportRequest</a></code></h4>
 <ul class="">
-<li><code><a title="event_schemas.apps.export-service.v1.export_request.ExportRequest.export_request" href="#event_schemas.apps.export-service.v1.export_request.ExportRequest.export_request">export_request</a></code></li>
-<li><code><a title="event_schemas.apps.export-service.v1.export_request.ExportRequest.from_dict" href="#event_schemas.apps.export-service.v1.export_request.ExportRequest.from_dict">from_dict</a></code></li>
-<li><code><a title="event_schemas.apps.export-service.v1.export_request.ExportRequest.to_dict" href="#event_schemas.apps.export-service.v1.export_request.ExportRequest.to_dict">to_dict</a></code></li>
+<li><code><a title="event_schemas.apps.export_service.v1.export_request.ExportRequest.export_request" href="#event_schemas.apps.export_service.v1.export_request.ExportRequest.export_request">export_request</a></code></li>
+<li><code><a title="event_schemas.apps.export_service.v1.export_request.ExportRequest.from_dict" href="#event_schemas.apps.export_service.v1.export_request.ExportRequest.from_dict">from_dict</a></code></li>
+<li><code><a title="event_schemas.apps.export_service.v1.export_request.ExportRequest.to_dict" href="#event_schemas.apps.export_service.v1.export_request.ExportRequest.to_dict">to_dict</a></code></li>
 </ul>
 </li>
 <li>
-<h4><code><a title="event_schemas.apps.export-service.v1.export_request.ExportRequestClass" href="#event_schemas.apps.export-service.v1.export_request.ExportRequestClass">ExportRequestClass</a></code></h4>
+<h4><code><a title="event_schemas.apps.export_service.v1.export_request.ExportRequestClass" href="#event_schemas.apps.export_service.v1.export_request.ExportRequestClass">ExportRequestClass</a></code></h4>
 <ul class="two-column">
-<li><code><a title="event_schemas.apps.export-service.v1.export_request.ExportRequestClass.application" href="#event_schemas.apps.export-service.v1.export_request.ExportRequestClass.application">application</a></code></li>
-<li><code><a title="event_schemas.apps.export-service.v1.export_request.ExportRequestClass.filters" href="#event_schemas.apps.export-service.v1.export_request.ExportRequestClass.filters">filters</a></code></li>
-<li><code><a title="event_schemas.apps.export-service.v1.export_request.ExportRequestClass.format" href="#event_schemas.apps.export-service.v1.export_request.ExportRequestClass.format">format</a></code></li>
-<li><code><a title="event_schemas.apps.export-service.v1.export_request.ExportRequestClass.from_dict" href="#event_schemas.apps.export-service.v1.export_request.ExportRequestClass.from_dict">from_dict</a></code></li>
-<li><code><a title="event_schemas.apps.export-service.v1.export_request.ExportRequestClass.resource" href="#event_schemas.apps.export-service.v1.export_request.ExportRequestClass.resource">resource</a></code></li>
-<li><code><a title="event_schemas.apps.export-service.v1.export_request.ExportRequestClass.to_dict" href="#event_schemas.apps.export-service.v1.export_request.ExportRequestClass.to_dict">to_dict</a></code></li>
-<li><code><a title="event_schemas.apps.export-service.v1.export_request.ExportRequestClass.uuid" href="#event_schemas.apps.export-service.v1.export_request.ExportRequestClass.uuid">uuid</a></code></li>
-<li><code><a title="event_schemas.apps.export-service.v1.export_request.ExportRequestClass.x_rh_identity" href="#event_schemas.apps.export-service.v1.export_request.ExportRequestClass.x_rh_identity">x_rh_identity</a></code></li>
+<li><code><a title="event_schemas.apps.export_service.v1.export_request.ExportRequestClass.application" href="#event_schemas.apps.export_service.v1.export_request.ExportRequestClass.application">application</a></code></li>
+<li><code><a title="event_schemas.apps.export_service.v1.export_request.ExportRequestClass.filters" href="#event_schemas.apps.export_service.v1.export_request.ExportRequestClass.filters">filters</a></code></li>
+<li><code><a title="event_schemas.apps.export_service.v1.export_request.ExportRequestClass.format" href="#event_schemas.apps.export_service.v1.export_request.ExportRequestClass.format">format</a></code></li>
+<li><code><a title="event_schemas.apps.export_service.v1.export_request.ExportRequestClass.from_dict" href="#event_schemas.apps.export_service.v1.export_request.ExportRequestClass.from_dict">from_dict</a></code></li>
+<li><code><a title="event_schemas.apps.export_service.v1.export_request.ExportRequestClass.resource" href="#event_schemas.apps.export_service.v1.export_request.ExportRequestClass.resource">resource</a></code></li>
+<li><code><a title="event_schemas.apps.export_service.v1.export_request.ExportRequestClass.to_dict" href="#event_schemas.apps.export_service.v1.export_request.ExportRequestClass.to_dict">to_dict</a></code></li>
+<li><code><a title="event_schemas.apps.export_service.v1.export_request.ExportRequestClass.uuid" href="#event_schemas.apps.export_service.v1.export_request.ExportRequestClass.uuid">uuid</a></code></li>
+<li><code><a title="event_schemas.apps.export_service.v1.export_request.ExportRequestClass.x_rh_identity" href="#event_schemas.apps.export_service.v1.export_request.ExportRequestClass.x_rh_identity">x_rh_identity</a></code></li>
 </ul>
 </li>
 <li>
-<h4><code><a title="event_schemas.apps.export-service.v1.export_request.Format" href="#event_schemas.apps.export-service.v1.export_request.Format">Format</a></code></h4>
+<h4><code><a title="event_schemas.apps.export_service.v1.export_request.Format" href="#event_schemas.apps.export_service.v1.export_request.Format">Format</a></code></h4>
 <ul class="">
-<li><code><a title="event_schemas.apps.export-service.v1.export_request.Format.CSV" href="#event_schemas.apps.export-service.v1.export_request.Format.CSV">CSV</a></code></li>
-<li><code><a title="event_schemas.apps.export-service.v1.export_request.Format.JSON" href="#event_schemas.apps.export-service.v1.export_request.Format.JSON">JSON</a></code></li>
+<li><code><a title="event_schemas.apps.export_service.v1.export_request.Format.CSV" href="#event_schemas.apps.export_service.v1.export_request.Format.CSV">CSV</a></code></li>
+<li><code><a title="event_schemas.apps.export_service.v1.export_request.Format.JSON" href="#event_schemas.apps.export_service.v1.export_request.Format.JSON">JSON</a></code></li>
 </ul>
 </li>
 </ul>

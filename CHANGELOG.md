@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.1.4](https://github.com/RedHatInsights/event-schemas-python/compare/v0.1.3...v0.1.4) (2023-05-02)
+
+
+### Bug Fixes
+
+* Regenerate types ([5b796a6](https://github.com/RedHatInsights/event-schemas-python/commit/5b796a66508c946e89dc86d721b60c43689f427b))
+* Use a valid package name ([8233e1d](https://github.com/RedHatInsights/event-schemas-python/commit/8233e1d018d0b66e435e0e53d905520ad6e709c4))
+
 ## [0.1.3](https://github.com/RedHatInsights/event-schemas-python/compare/v0.1.2...v0.1.3) (2023-05-01)
 
 

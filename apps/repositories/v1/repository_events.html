@@ -79,7 +79,7 @@ def to_class(c: Type[T], x: Any) -&gt; dict:
 
 class Repositories:
     distribution_arch: Optional[str]
-    distribution_versions: Optional[List[Any]]
+    distribution_versions: Optional[List[str]]
     failed_introspections_count: Optional[int]
     gpg_key: Optional[str]
     last_introspection_error: Optional[str]
@@ -93,7 +93,7 @@ class Repositories:
     url: str
     uuid: str
 
-    def __init__(self, distribution_arch: Optional[str], distribution_versions: Optional[List[Any]], failed_introspections_count: Optional[int], gpg_key: Optional[str], last_introspection_error: Optional[str], last_introspection_time: Optional[datetime], last_success_introspection_time: Optional[datetime], last_update_introspection_time: Optional[datetime], metadata_verification: Optional[bool], name: str, package_count: Optional[int], status: Optional[str], url: str, uuid: str) -&gt; None:
+    def __init__(self, distribution_arch: Optional[str], distribution_versions: Optional[List[str]], failed_introspections_count: Optional[int], gpg_key: Optional[str], last_introspection_error: Optional[str], last_introspection_time: Optional[datetime], last_success_introspection_time: Optional[datetime], last_update_introspection_time: Optional[datetime], metadata_verification: Optional[bool], name: str, package_count: Optional[int], status: Optional[str], url: str, uuid: str) -&gt; None:
         self.distribution_arch = distribution_arch
         self.distribution_versions = distribution_versions
         self.failed_introspections_count = failed_introspections_count
@@ -113,7 +113,7 @@ class Repositories:
     def from_dict(obj: Any) -&gt; &#39;Repositories&#39;:
         assert isinstance(obj, dict)
         distribution_arch = from_union([from_str, from_none], obj.get(&#34;distribution_arch&#34;))
-        distribution_versions = from_union([lambda x: from_list(lambda x: x, x), from_none], obj.get(&#34;distribution_versions&#34;))
+        distribution_versions = from_union([lambda x: from_list(from_str, x), from_none], obj.get(&#34;distribution_versions&#34;))
         failed_introspections_count = from_union([from_int, from_none], obj.get(&#34;failed_introspections_count&#34;))
         gpg_key = from_union([from_str, from_none], obj.get(&#34;gpg_key&#34;))
         last_introspection_error = from_union([from_str, from_none], obj.get(&#34;last_introspection_error&#34;))
@@ -133,7 +133,7 @@ class Repositories:
         if self.distribution_arch is not None:
             result[&#34;distribution_arch&#34;] = from_union([from_str, from_none], self.distribution_arch)
         if self.distribution_versions is not None:
-            result[&#34;distribution_versions&#34;] = from_union([lambda x: from_list(lambda x: x, x), from_none], self.distribution_versions)
+            result[&#34;distribution_versions&#34;] = from_union([lambda x: from_list(from_str, x), from_none], self.distribution_versions)
         if self.failed_introspections_count is not None:
             result[&#34;failed_introspections_count&#34;] = from_union([from_int, from_none], self.failed_introspections_count)
         if self.gpg_key is not None:
@@ -341,7 +341,7 @@ def repository_events_to_dict(x: RepositoryEvents) -&gt; Any:
 <dl>
 <dt id="event_schemas.apps.repositories.v1.repository_events.Repositories"><code class="flex name class">
 <span>class <span class="ident">Repositories</span></span>
-<span>(</span><span>distribution_arch: Optional[str], distribution_versions: Optional[List[Any]], failed_introspections_count: Optional[int], gpg_key: Optional[str], last_introspection_error: Optional[str], last_introspection_time: Optional[datetime.datetime], last_success_introspection_time: Optional[datetime.datetime], last_update_introspection_time: Optional[datetime.datetime], metadata_verification: Optional[bool], name: str, package_count: Optional[int], status: Optional[str], url: str, uuid: str)</span>
+<span>(</span><span>distribution_arch: Optional[str], distribution_versions: Optional[List[str]], failed_introspections_count: Optional[int], gpg_key: Optional[str], last_introspection_error: Optional[str], last_introspection_time: Optional[datetime.datetime], last_success_introspection_time: Optional[datetime.datetime], last_update_introspection_time: Optional[datetime.datetime], metadata_verification: Optional[bool], name: str, package_count: Optional[int], status: Optional[str], url: str, uuid: str)</span>
 </code></dt>
 <dd>
 <div class="desc"></div>
@@ -351,7 +351,7 @@ def repository_events_to_dict(x: RepositoryEvents) -&gt; Any:
 </summary>
 <pre><code class="python">class Repositories:
     distribution_arch: Optional[str]
-    distribution_versions: Optional[List[Any]]
+    distribution_versions: Optional[List[str]]
     failed_introspections_count: Optional[int]
     gpg_key: Optional[str]
     last_introspection_error: Optional[str]
@@ -365,7 +365,7 @@ def repository_events_to_dict(x: RepositoryEvents) -&gt; Any:
     url: str
     uuid: str
 
-    def __init__(self, distribution_arch: Optional[str], distribution_versions: Optional[List[Any]], failed_introspections_count: Optional[int], gpg_key: Optional[str], last_introspection_error: Optional[str], last_introspection_time: Optional[datetime], last_success_introspection_time: Optional[datetime], last_update_introspection_time: Optional[datetime], metadata_verification: Optional[bool], name: str, package_count: Optional[int], status: Optional[str], url: str, uuid: str) -&gt; None:
+    def __init__(self, distribution_arch: Optional[str], distribution_versions: Optional[List[str]], failed_introspections_count: Optional[int], gpg_key: Optional[str], last_introspection_error: Optional[str], last_introspection_time: Optional[datetime], last_success_introspection_time: Optional[datetime], last_update_introspection_time: Optional[datetime], metadata_verification: Optional[bool], name: str, package_count: Optional[int], status: Optional[str], url: str, uuid: str) -&gt; None:
         self.distribution_arch = distribution_arch
         self.distribution_versions = distribution_versions
         self.failed_introspections_count = failed_introspections_count
@@ -385,7 +385,7 @@ def repository_events_to_dict(x: RepositoryEvents) -&gt; Any:
     def from_dict(obj: Any) -&gt; &#39;Repositories&#39;:
         assert isinstance(obj, dict)
         distribution_arch = from_union([from_str, from_none], obj.get(&#34;distribution_arch&#34;))
-        distribution_versions = from_union([lambda x: from_list(lambda x: x, x), from_none], obj.get(&#34;distribution_versions&#34;))
+        distribution_versions = from_union([lambda x: from_list(from_str, x), from_none], obj.get(&#34;distribution_versions&#34;))
         failed_introspections_count = from_union([from_int, from_none], obj.get(&#34;failed_introspections_count&#34;))
         gpg_key = from_union([from_str, from_none], obj.get(&#34;gpg_key&#34;))
         last_introspection_error = from_union([from_str, from_none], obj.get(&#34;last_introspection_error&#34;))
@@ -405,7 +405,7 @@ def repository_events_to_dict(x: RepositoryEvents) -&gt; Any:
         if self.distribution_arch is not None:
             result[&#34;distribution_arch&#34;] = from_union([from_str, from_none], self.distribution_arch)
         if self.distribution_versions is not None:
-            result[&#34;distribution_versions&#34;] = from_union([lambda x: from_list(lambda x: x, x), from_none], self.distribution_versions)
+            result[&#34;distribution_versions&#34;] = from_union([lambda x: from_list(from_str, x), from_none], self.distribution_versions)
         if self.failed_introspections_count is not None:
             result[&#34;failed_introspections_count&#34;] = from_union([from_int, from_none], self.failed_introspections_count)
         if self.gpg_key is not None:
@@ -435,7 +435,7 @@ def repository_events_to_dict(x: RepositoryEvents) -&gt; Any:
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="event_schemas.apps.repositories.v1.repository_events.Repositories.distribution_versions"><code class="name">var <span class="ident">distribution_versions</span> : Optional[List[Any]]</code></dt>
+<dt id="event_schemas.apps.repositories.v1.repository_events.Repositories.distribution_versions"><code class="name">var <span class="ident">distribution_versions</span> : Optional[List[str]]</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
@@ -503,7 +503,7 @@ def repository_events_to_dict(x: RepositoryEvents) -&gt; Any:
 def from_dict(obj: Any) -&gt; &#39;Repositories&#39;:
     assert isinstance(obj, dict)
     distribution_arch = from_union([from_str, from_none], obj.get(&#34;distribution_arch&#34;))
-    distribution_versions = from_union([lambda x: from_list(lambda x: x, x), from_none], obj.get(&#34;distribution_versions&#34;))
+    distribution_versions = from_union([lambda x: from_list(from_str, x), from_none], obj.get(&#34;distribution_versions&#34;))
     failed_introspections_count = from_union([from_int, from_none], obj.get(&#34;failed_introspections_count&#34;))
     gpg_key = from_union([from_str, from_none], obj.get(&#34;gpg_key&#34;))
     last_introspection_error = from_union([from_str, from_none], obj.get(&#34;last_introspection_error&#34;))
@@ -536,7 +536,7 @@ def from_dict(obj: Any) -&gt; &#39;Repositories&#39;:
     if self.distribution_arch is not None:
         result[&#34;distribution_arch&#34;] = from_union([from_str, from_none], self.distribution_arch)
     if self.distribution_versions is not None:
-        result[&#34;distribution_versions&#34;] = from_union([lambda x: from_list(lambda x: x, x), from_none], self.distribution_versions)
+        result[&#34;distribution_versions&#34;] = from_union([lambda x: from_list(from_str, x), from_none], self.distribution_versions)
     if self.failed_introspections_count is not None:
         result[&#34;failed_introspections_count&#34;] = from_union([from_int, from_none], self.failed_introspections_count)
     if self.gpg_key is not None:

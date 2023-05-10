@@ -51,7 +51,7 @@ def to_class(c: Type[T], x: Any) -> dict:
 
 class Repositories:
     distribution_arch: Optional[str]
-    distribution_versions: Optional[List[Any]]
+    distribution_versions: Optional[List[str]]
     failed_introspections_count: Optional[int]
     gpg_key: Optional[str]
     last_introspection_error: Optional[str]
@@ -65,7 +65,7 @@ class Repositories:
     url: str
     uuid: str
 
-    def __init__(self, distribution_arch: Optional[str], distribution_versions: Optional[List[Any]], failed_introspections_count: Optional[int], gpg_key: Optional[str], last_introspection_error: Optional[str], last_introspection_time: Optional[datetime], last_success_introspection_time: Optional[datetime], last_update_introspection_time: Optional[datetime], metadata_verification: Optional[bool], name: str, package_count: Optional[int], status: Optional[str], url: str, uuid: str) -> None:
+    def __init__(self, distribution_arch: Optional[str], distribution_versions: Optional[List[str]], failed_introspections_count: Optional[int], gpg_key: Optional[str], last_introspection_error: Optional[str], last_introspection_time: Optional[datetime], last_success_introspection_time: Optional[datetime], last_update_introspection_time: Optional[datetime], metadata_verification: Optional[bool], name: str, package_count: Optional[int], status: Optional[str], url: str, uuid: str) -> None:
         self.distribution_arch = distribution_arch
         self.distribution_versions = distribution_versions
         self.failed_introspections_count = failed_introspections_count
@@ -85,7 +85,7 @@ class Repositories:
     def from_dict(obj: Any) -> 'Repositories':
         assert isinstance(obj, dict)
         distribution_arch = from_union([from_str, from_none], obj.get("distribution_arch"))
-        distribution_versions = from_union([lambda x: from_list(lambda x: x, x), from_none], obj.get("distribution_versions"))
+        distribution_versions = from_union([lambda x: from_list(from_str, x), from_none], obj.get("distribution_versions"))
         failed_introspections_count = from_union([from_int, from_none], obj.get("failed_introspections_count"))
         gpg_key = from_union([from_str, from_none], obj.get("gpg_key"))
         last_introspection_error = from_union([from_str, from_none], obj.get("last_introspection_error"))
@@ -105,7 +105,7 @@ class Repositories:
         if self.distribution_arch is not None:
             result["distribution_arch"] = from_union([from_str, from_none], self.distribution_arch)
         if self.distribution_versions is not None:
-            result["distribution_versions"] = from_union([lambda x: from_list(lambda x: x, x), from_none], self.distribution_versions)
+            result["distribution_versions"] = from_union([lambda x: from_list(from_str, x), from_none], self.distribution_versions)
         if self.failed_introspections_count is not None:
             result["failed_introspections_count"] = from_union([from_int, from_none], self.failed_introspections_count)
         if self.gpg_key is not None:

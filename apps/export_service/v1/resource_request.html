@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
 <meta name="generator" content="pdoc 0.10.0" />
-<title>event_schemas.apps.export_service.v1.export_request API documentation</title>
+<title>event_schemas.apps.export_service.v1.resource_request API documentation</title>
 <meta name="description" content="" />
 <link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
 <link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
@@ -19,7 +19,7 @@
 <main>
 <article id="content">
 <header>
-<h1 class="title">Module <code>event_schemas.apps.export_service.v1.export_request</code></h1>
+<h1 class="title">Module <code>event_schemas.apps.export_service.v1.resource_request</code></h1>
 </header>
 <section id="section-intro">
 <details class="source">
@@ -27,8 +27,8 @@
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">from enum import Enum
-from typing import Dict, Any, Optional, TypeVar, Callable, Type, cast
 from uuid import UUID
+from typing import Dict, Any, Optional, TypeVar, Callable, Type, cast
 
 
 T = TypeVar(&#34;T&#34;)
@@ -75,23 +75,26 @@ class Format(Enum):
     JSON = &#34;json&#34;
 
 
-class ExportRequestClass:
+class ResourceRequestClass:
     &#34;&#34;&#34;A request for data to be exported&#34;&#34;&#34;
     &#34;&#34;&#34;The application being requested&#34;&#34;&#34;
     application: str
+    &#34;&#34;&#34;The unique identifier of the export request that triggered the resource request&#34;&#34;&#34;
+    export_request_uuid: UUID
     &#34;&#34;&#34;The filters to be applied to the data&#34;&#34;&#34;
     filters: Optional[Dict[str, Any]]
     &#34;&#34;&#34;The format of the data to be exported&#34;&#34;&#34;
     format: Format
     &#34;&#34;&#34;The resource to be exported&#34;&#34;&#34;
     resource: str
-    &#34;&#34;&#34;A unique identifier for the request&#34;&#34;&#34;
+    &#34;&#34;&#34;A unique identifier for the resource request&#34;&#34;&#34;
     uuid: UUID
     &#34;&#34;&#34;The Base64-encoded JSON identity header of the user making the request&#34;&#34;&#34;
     x_rh_identity: str
 
-    def __init__(self, application: str, filters: Optional[Dict[str, Any]], format: Format, resource: str, uuid: UUID, x_rh_identity: str) -&gt; None:
+    def __init__(self, application: str, export_request_uuid: UUID, filters: Optional[Dict[str, Any]], format: Format, resource: str, uuid: UUID, x_rh_identity: str) -&gt; None:
         self.application = application
+        self.export_request_uuid = export_request_uuid
         self.filters = filters
         self.format = format
         self.resource = resource
@@ -99,19 +102,21 @@ class ExportRequestClass:
         self.x_rh_identity = x_rh_identity
 
     @staticmethod
-    def from_dict(obj: Any) -&gt; &#39;ExportRequestClass&#39;:
+    def from_dict(obj: Any) -&gt; &#39;ResourceRequestClass&#39;:
         assert isinstance(obj, dict)
         application = from_str(obj.get(&#34;application&#34;))
+        export_request_uuid = UUID(obj.get(&#34;export_request_uuid&#34;))
         filters = from_union([lambda x: from_dict(lambda x: x, x), from_none], obj.get(&#34;filters&#34;))
         format = Format(obj.get(&#34;format&#34;))
         resource = from_str(obj.get(&#34;resource&#34;))
         uuid = UUID(obj.get(&#34;uuid&#34;))
         x_rh_identity = from_str(obj.get(&#34;x-rh-identity&#34;))
-        return ExportRequestClass(application, filters, format, resource, uuid, x_rh_identity)
+        return ResourceRequestClass(application, export_request_uuid, filters, format, resource, uuid, x_rh_identity)
 
     def to_dict(self) -&gt; dict:
         result: dict = {}
         result[&#34;application&#34;] = from_str(self.application)
+        result[&#34;export_request_uuid&#34;] = str(self.export_request_uuid)
         if self.filters is not None:
             result[&#34;filters&#34;] = from_union([lambda x: from_dict(lambda x: x, x), from_none], self.filters)
         result[&#34;format&#34;] = to_enum(Format, self.format)
@@ -121,32 +126,32 @@ class ExportRequestClass:
         return result
 
 
-class ExportRequest:
-    &#34;&#34;&#34;Event data for data export requests.&#34;&#34;&#34;
+class ResourceRequest:
+    &#34;&#34;&#34;Event data for data export requests&#34;&#34;&#34;
     &#34;&#34;&#34;A request for data to be exported&#34;&#34;&#34;
-    export_request: ExportRequestClass
+    resource_request: ResourceRequestClass
 
-    def __init__(self, export_request: ExportRequestClass) -&gt; None:
-        self.export_request = export_request
+    def __init__(self, resource_request: ResourceRequestClass) -&gt; None:
+        self.resource_request = resource_request
 
     @staticmethod
-    def from_dict(obj: Any) -&gt; &#39;ExportRequest&#39;:
+    def from_dict(obj: Any) -&gt; &#39;ResourceRequest&#39;:
         assert isinstance(obj, dict)
-        export_request = ExportRequestClass.from_dict(obj.get(&#34;exportRequest&#34;))
-        return ExportRequest(export_request)
+        resource_request = ResourceRequestClass.from_dict(obj.get(&#34;resource_request&#34;))
+        return ResourceRequest(resource_request)
 
     def to_dict(self) -&gt; dict:
         result: dict = {}
-        result[&#34;exportRequest&#34;] = to_class(ExportRequestClass, self.export_request)
+        result[&#34;resource_request&#34;] = to_class(ResourceRequestClass, self.resource_request)
         return result
 
 
-def export_request_from_dict(s: Any) -&gt; ExportRequest:
-    return ExportRequest.from_dict(s)
+def resource_request_from_dict(s: Any) -&gt; ResourceRequest:
+    return ResourceRequest.from_dict(s)
 
 
-def export_request_to_dict(x: ExportRequest) -&gt; Any:
-    return to_class(ExportRequest, x)</code></pre>
+def resource_request_to_dict(x: ResourceRequest) -&gt; Any:
+    return to_class(ResourceRequest, x)</code></pre>
 </details>
 </section>
 <section>
@@ -156,33 +161,7 @@ def export_request_to_dict(x: ExportRequest) -&gt; Any:
 <section>
 <h2 class="section-title" id="header-functions">Functions</h2>
 <dl>
-<dt id="event_schemas.apps.export_service.v1.export_request.export_request_from_dict"><code class="name flex">
-<span>def <span class="ident">export_request_from_dict</span></span>(<span>s: Any) ‑> <a title="event_schemas.apps.export_service.v1.export_request.ExportRequest" href="#event_schemas.apps.export_service.v1.export_request.ExportRequest">ExportRequest</a></span>
-</code></dt>
-<dd>
-<div class="desc"></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">def export_request_from_dict(s: Any) -&gt; ExportRequest:
-    return ExportRequest.from_dict(s)</code></pre>
-</details>
-</dd>
-<dt id="event_schemas.apps.export_service.v1.export_request.export_request_to_dict"><code class="name flex">
-<span>def <span class="ident">export_request_to_dict</span></span>(<span>x: <a title="event_schemas.apps.export_service.v1.export_request.ExportRequest" href="#event_schemas.apps.export_service.v1.export_request.ExportRequest">ExportRequest</a>) ‑> Any</span>
-</code></dt>
-<dd>
-<div class="desc"></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">def export_request_to_dict(x: ExportRequest) -&gt; Any:
-    return to_class(ExportRequest, x)</code></pre>
-</details>
-</dd>
-<dt id="event_schemas.apps.export_service.v1.export_request.from_dict"><code class="name flex">
+<dt id="event_schemas.apps.export_service.v1.resource_request.from_dict"><code class="name flex">
 <span>def <span class="ident">from_dict</span></span>(<span>f: Callable[[Any], ~T], x: Any) ‑> Dict[str, ~T]</span>
 </code></dt>
 <dd>
@@ -196,7 +175,7 @@ def export_request_to_dict(x: ExportRequest) -&gt; Any:
     return { k: f(v) for (k, v) in x.items() }</code></pre>
 </details>
 </dd>
-<dt id="event_schemas.apps.export_service.v1.export_request.from_none"><code class="name flex">
+<dt id="event_schemas.apps.export_service.v1.resource_request.from_none"><code class="name flex">
 <span>def <span class="ident">from_none</span></span>(<span>x: Any) ‑> Any</span>
 </code></dt>
 <dd>
@@ -210,7 +189,7 @@ def export_request_to_dict(x: ExportRequest) -&gt; Any:
     return x</code></pre>
 </details>
 </dd>
-<dt id="event_schemas.apps.export_service.v1.export_request.from_str"><code class="name flex">
+<dt id="event_schemas.apps.export_service.v1.resource_request.from_str"><code class="name flex">
 <span>def <span class="ident">from_str</span></span>(<span>x: Any) ‑> str</span>
 </code></dt>
 <dd>
@@ -224,7 +203,7 @@ def export_request_to_dict(x: ExportRequest) -&gt; Any:
     return x</code></pre>
 </details>
 </dd>
-<dt id="event_schemas.apps.export_service.v1.export_request.from_union"><code class="name flex">
+<dt id="event_schemas.apps.export_service.v1.resource_request.from_union"><code class="name flex">
 <span>def <span class="ident">from_union</span></span>(<span>fs, x)</span>
 </code></dt>
 <dd>
@@ -242,7 +221,33 @@ def export_request_to_dict(x: ExportRequest) -&gt; Any:
     assert False</code></pre>
 </details>
 </dd>
-<dt id="event_schemas.apps.export_service.v1.export_request.to_class"><code class="name flex">
+<dt id="event_schemas.apps.export_service.v1.resource_request.resource_request_from_dict"><code class="name flex">
+<span>def <span class="ident">resource_request_from_dict</span></span>(<span>s: Any) ‑> <a title="event_schemas.apps.export_service.v1.resource_request.ResourceRequest" href="#event_schemas.apps.export_service.v1.resource_request.ResourceRequest">ResourceRequest</a></span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def resource_request_from_dict(s: Any) -&gt; ResourceRequest:
+    return ResourceRequest.from_dict(s)</code></pre>
+</details>
+</dd>
+<dt id="event_schemas.apps.export_service.v1.resource_request.resource_request_to_dict"><code class="name flex">
+<span>def <span class="ident">resource_request_to_dict</span></span>(<span>x: <a title="event_schemas.apps.export_service.v1.resource_request.ResourceRequest" href="#event_schemas.apps.export_service.v1.resource_request.ResourceRequest">ResourceRequest</a>) ‑> Any</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def resource_request_to_dict(x: ResourceRequest) -&gt; Any:
+    return to_class(ResourceRequest, x)</code></pre>
+</details>
+</dd>
+<dt id="event_schemas.apps.export_service.v1.resource_request.to_class"><code class="name flex">
 <span>def <span class="ident">to_class</span></span>(<span>c: Type[~T], x: Any) ‑> dict</span>
 </code></dt>
 <dd>
@@ -256,7 +261,7 @@ def export_request_to_dict(x: ExportRequest) -&gt; Any:
     return cast(Any, x).to_dict()</code></pre>
 </details>
 </dd>
-<dt id="event_schemas.apps.export_service.v1.export_request.to_enum"><code class="name flex">
+<dt id="event_schemas.apps.export_service.v1.resource_request.to_enum"><code class="name flex">
 <span>def <span class="ident">to_enum</span></span>(<span>c: Type[~EnumT], x: Any) ‑> ~EnumT</span>
 </code></dt>
 <dd>
@@ -275,212 +280,7 @@ def export_request_to_dict(x: ExportRequest) -&gt; Any:
 <section>
 <h2 class="section-title" id="header-classes">Classes</h2>
 <dl>
-<dt id="event_schemas.apps.export_service.v1.export_request.ExportRequest"><code class="flex name class">
-<span>class <span class="ident">ExportRequest</span></span>
-<span>(</span><span>export_request: <a title="event_schemas.apps.export_service.v1.export_request.ExportRequestClass" href="#event_schemas.apps.export_service.v1.export_request.ExportRequestClass">ExportRequestClass</a>)</span>
-</code></dt>
-<dd>
-<div class="desc"><p>Event data for data export requests.</p></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">class ExportRequest:
-    &#34;&#34;&#34;Event data for data export requests.&#34;&#34;&#34;
-    &#34;&#34;&#34;A request for data to be exported&#34;&#34;&#34;
-    export_request: ExportRequestClass
-
-    def __init__(self, export_request: ExportRequestClass) -&gt; None:
-        self.export_request = export_request
-
-    @staticmethod
-    def from_dict(obj: Any) -&gt; &#39;ExportRequest&#39;:
-        assert isinstance(obj, dict)
-        export_request = ExportRequestClass.from_dict(obj.get(&#34;exportRequest&#34;))
-        return ExportRequest(export_request)
-
-    def to_dict(self) -&gt; dict:
-        result: dict = {}
-        result[&#34;exportRequest&#34;] = to_class(ExportRequestClass, self.export_request)
-        return result</code></pre>
-</details>
-<h3>Class variables</h3>
-<dl>
-<dt id="event_schemas.apps.export_service.v1.export_request.ExportRequest.export_request"><code class="name">var <span class="ident">export_request</span> : <a title="event_schemas.apps.export_service.v1.export_request.ExportRequestClass" href="#event_schemas.apps.export_service.v1.export_request.ExportRequestClass">ExportRequestClass</a></code></dt>
-<dd>
-<div class="desc"></div>
-</dd>
-</dl>
-<h3>Static methods</h3>
-<dl>
-<dt id="event_schemas.apps.export_service.v1.export_request.ExportRequest.from_dict"><code class="name flex">
-<span>def <span class="ident">from_dict</span></span>(<span>obj: Any) ‑> <a title="event_schemas.apps.export_service.v1.export_request.ExportRequest" href="#event_schemas.apps.export_service.v1.export_request.ExportRequest">ExportRequest</a></span>
-</code></dt>
-<dd>
-<div class="desc"></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">@staticmethod
-def from_dict(obj: Any) -&gt; &#39;ExportRequest&#39;:
-    assert isinstance(obj, dict)
-    export_request = ExportRequestClass.from_dict(obj.get(&#34;exportRequest&#34;))
-    return ExportRequest(export_request)</code></pre>
-</details>
-</dd>
-</dl>
-<h3>Methods</h3>
-<dl>
-<dt id="event_schemas.apps.export_service.v1.export_request.ExportRequest.to_dict"><code class="name flex">
-<span>def <span class="ident">to_dict</span></span>(<span>self) ‑> dict</span>
-</code></dt>
-<dd>
-<div class="desc"></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">def to_dict(self) -&gt; dict:
-    result: dict = {}
-    result[&#34;exportRequest&#34;] = to_class(ExportRequestClass, self.export_request)
-    return result</code></pre>
-</details>
-</dd>
-</dl>
-</dd>
-<dt id="event_schemas.apps.export_service.v1.export_request.ExportRequestClass"><code class="flex name class">
-<span>class <span class="ident">ExportRequestClass</span></span>
-<span>(</span><span>application: str, filters: Optional[Dict[str, Any]], format: <a title="event_schemas.apps.export_service.v1.export_request.Format" href="#event_schemas.apps.export_service.v1.export_request.Format">Format</a>, resource: str, uuid: uuid.UUID, x_rh_identity: str)</span>
-</code></dt>
-<dd>
-<div class="desc"><p>A request for data to be exported</p></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">class ExportRequestClass:
-    &#34;&#34;&#34;A request for data to be exported&#34;&#34;&#34;
-    &#34;&#34;&#34;The application being requested&#34;&#34;&#34;
-    application: str
-    &#34;&#34;&#34;The filters to be applied to the data&#34;&#34;&#34;
-    filters: Optional[Dict[str, Any]]
-    &#34;&#34;&#34;The format of the data to be exported&#34;&#34;&#34;
-    format: Format
-    &#34;&#34;&#34;The resource to be exported&#34;&#34;&#34;
-    resource: str
-    &#34;&#34;&#34;A unique identifier for the request&#34;&#34;&#34;
-    uuid: UUID
-    &#34;&#34;&#34;The Base64-encoded JSON identity header of the user making the request&#34;&#34;&#34;
-    x_rh_identity: str
-
-    def __init__(self, application: str, filters: Optional[Dict[str, Any]], format: Format, resource: str, uuid: UUID, x_rh_identity: str) -&gt; None:
-        self.application = application
-        self.filters = filters
-        self.format = format
-        self.resource = resource
-        self.uuid = uuid
-        self.x_rh_identity = x_rh_identity
-
-    @staticmethod
-    def from_dict(obj: Any) -&gt; &#39;ExportRequestClass&#39;:
-        assert isinstance(obj, dict)
-        application = from_str(obj.get(&#34;application&#34;))
-        filters = from_union([lambda x: from_dict(lambda x: x, x), from_none], obj.get(&#34;filters&#34;))
-        format = Format(obj.get(&#34;format&#34;))
-        resource = from_str(obj.get(&#34;resource&#34;))
-        uuid = UUID(obj.get(&#34;uuid&#34;))
-        x_rh_identity = from_str(obj.get(&#34;x-rh-identity&#34;))
-        return ExportRequestClass(application, filters, format, resource, uuid, x_rh_identity)
-
-    def to_dict(self) -&gt; dict:
-        result: dict = {}
-        result[&#34;application&#34;] = from_str(self.application)
-        if self.filters is not None:
-            result[&#34;filters&#34;] = from_union([lambda x: from_dict(lambda x: x, x), from_none], self.filters)
-        result[&#34;format&#34;] = to_enum(Format, self.format)
-        result[&#34;resource&#34;] = from_str(self.resource)
-        result[&#34;uuid&#34;] = str(self.uuid)
-        result[&#34;x-rh-identity&#34;] = from_str(self.x_rh_identity)
-        return result</code></pre>
-</details>
-<h3>Class variables</h3>
-<dl>
-<dt id="event_schemas.apps.export_service.v1.export_request.ExportRequestClass.application"><code class="name">var <span class="ident">application</span> : str</code></dt>
-<dd>
-<div class="desc"><p>The filters to be applied to the data</p></div>
-</dd>
-<dt id="event_schemas.apps.export_service.v1.export_request.ExportRequestClass.filters"><code class="name">var <span class="ident">filters</span> : Optional[Dict[str, Any]]</code></dt>
-<dd>
-<div class="desc"><p>The format of the data to be exported</p></div>
-</dd>
-<dt id="event_schemas.apps.export_service.v1.export_request.ExportRequestClass.format"><code class="name">var <span class="ident">format</span> : <a title="event_schemas.apps.export_service.v1.export_request.Format" href="#event_schemas.apps.export_service.v1.export_request.Format">Format</a></code></dt>
-<dd>
-<div class="desc"><p>The resource to be exported</p></div>
-</dd>
-<dt id="event_schemas.apps.export_service.v1.export_request.ExportRequestClass.resource"><code class="name">var <span class="ident">resource</span> : str</code></dt>
-<dd>
-<div class="desc"><p>A unique identifier for the request</p></div>
-</dd>
-<dt id="event_schemas.apps.export_service.v1.export_request.ExportRequestClass.uuid"><code class="name">var <span class="ident">uuid</span> : uuid.UUID</code></dt>
-<dd>
-<div class="desc"><p>The Base64-encoded JSON identity header of the user making the request</p></div>
-</dd>
-<dt id="event_schemas.apps.export_service.v1.export_request.ExportRequestClass.x_rh_identity"><code class="name">var <span class="ident">x_rh_identity</span> : str</code></dt>
-<dd>
-<div class="desc"></div>
-</dd>
-</dl>
-<h3>Static methods</h3>
-<dl>
-<dt id="event_schemas.apps.export_service.v1.export_request.ExportRequestClass.from_dict"><code class="name flex">
-<span>def <span class="ident">from_dict</span></span>(<span>obj: Any) ‑> <a title="event_schemas.apps.export_service.v1.export_request.ExportRequestClass" href="#event_schemas.apps.export_service.v1.export_request.ExportRequestClass">ExportRequestClass</a></span>
-</code></dt>
-<dd>
-<div class="desc"></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">@staticmethod
-def from_dict(obj: Any) -&gt; &#39;ExportRequestClass&#39;:
-    assert isinstance(obj, dict)
-    application = from_str(obj.get(&#34;application&#34;))
-    filters = from_union([lambda x: from_dict(lambda x: x, x), from_none], obj.get(&#34;filters&#34;))
-    format = Format(obj.get(&#34;format&#34;))
-    resource = from_str(obj.get(&#34;resource&#34;))
-    uuid = UUID(obj.get(&#34;uuid&#34;))
-    x_rh_identity = from_str(obj.get(&#34;x-rh-identity&#34;))
-    return ExportRequestClass(application, filters, format, resource, uuid, x_rh_identity)</code></pre>
-</details>
-</dd>
-</dl>
-<h3>Methods</h3>
-<dl>
-<dt id="event_schemas.apps.export_service.v1.export_request.ExportRequestClass.to_dict"><code class="name flex">
-<span>def <span class="ident">to_dict</span></span>(<span>self) ‑> dict</span>
-</code></dt>
-<dd>
-<div class="desc"></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">def to_dict(self) -&gt; dict:
-    result: dict = {}
-    result[&#34;application&#34;] = from_str(self.application)
-    if self.filters is not None:
-        result[&#34;filters&#34;] = from_union([lambda x: from_dict(lambda x: x, x), from_none], self.filters)
-    result[&#34;format&#34;] = to_enum(Format, self.format)
-    result[&#34;resource&#34;] = from_str(self.resource)
-    result[&#34;uuid&#34;] = str(self.uuid)
-    result[&#34;x-rh-identity&#34;] = from_str(self.x_rh_identity)
-    return result</code></pre>
-</details>
-</dd>
-</dl>
-</dd>
-<dt id="event_schemas.apps.export_service.v1.export_request.Format"><code class="flex name class">
+<dt id="event_schemas.apps.export_service.v1.resource_request.Format"><code class="flex name class">
 <span>class <span class="ident">Format</span></span>
 <span>(</span><span>*args, **kwds)</span>
 </code></dt>
@@ -501,13 +301,229 @@ def from_dict(obj: Any) -&gt; &#39;ExportRequestClass&#39;:
 </ul>
 <h3>Class variables</h3>
 <dl>
-<dt id="event_schemas.apps.export_service.v1.export_request.Format.CSV"><code class="name">var <span class="ident">CSV</span></code></dt>
+<dt id="event_schemas.apps.export_service.v1.resource_request.Format.CSV"><code class="name">var <span class="ident">CSV</span></code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="event_schemas.apps.export_service.v1.export_request.Format.JSON"><code class="name">var <span class="ident">JSON</span></code></dt>
+<dt id="event_schemas.apps.export_service.v1.resource_request.Format.JSON"><code class="name">var <span class="ident">JSON</span></code></dt>
 <dd>
 <div class="desc"></div>
+</dd>
+</dl>
+</dd>
+<dt id="event_schemas.apps.export_service.v1.resource_request.ResourceRequest"><code class="flex name class">
+<span>class <span class="ident">ResourceRequest</span></span>
+<span>(</span><span>resource_request: <a title="event_schemas.apps.export_service.v1.resource_request.ResourceRequestClass" href="#event_schemas.apps.export_service.v1.resource_request.ResourceRequestClass">ResourceRequestClass</a>)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Event data for data export requests</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class ResourceRequest:
+    &#34;&#34;&#34;Event data for data export requests&#34;&#34;&#34;
+    &#34;&#34;&#34;A request for data to be exported&#34;&#34;&#34;
+    resource_request: ResourceRequestClass
+
+    def __init__(self, resource_request: ResourceRequestClass) -&gt; None:
+        self.resource_request = resource_request
+
+    @staticmethod
+    def from_dict(obj: Any) -&gt; &#39;ResourceRequest&#39;:
+        assert isinstance(obj, dict)
+        resource_request = ResourceRequestClass.from_dict(obj.get(&#34;resource_request&#34;))
+        return ResourceRequest(resource_request)
+
+    def to_dict(self) -&gt; dict:
+        result: dict = {}
+        result[&#34;resource_request&#34;] = to_class(ResourceRequestClass, self.resource_request)
+        return result</code></pre>
+</details>
+<h3>Class variables</h3>
+<dl>
+<dt id="event_schemas.apps.export_service.v1.resource_request.ResourceRequest.resource_request"><code class="name">var <span class="ident">resource_request</span> : <a title="event_schemas.apps.export_service.v1.resource_request.ResourceRequestClass" href="#event_schemas.apps.export_service.v1.resource_request.ResourceRequestClass">ResourceRequestClass</a></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+<h3>Static methods</h3>
+<dl>
+<dt id="event_schemas.apps.export_service.v1.resource_request.ResourceRequest.from_dict"><code class="name flex">
+<span>def <span class="ident">from_dict</span></span>(<span>obj: Any) ‑> <a title="event_schemas.apps.export_service.v1.resource_request.ResourceRequest" href="#event_schemas.apps.export_service.v1.resource_request.ResourceRequest">ResourceRequest</a></span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def from_dict(obj: Any) -&gt; &#39;ResourceRequest&#39;:
+    assert isinstance(obj, dict)
+    resource_request = ResourceRequestClass.from_dict(obj.get(&#34;resource_request&#34;))
+    return ResourceRequest(resource_request)</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Methods</h3>
+<dl>
+<dt id="event_schemas.apps.export_service.v1.resource_request.ResourceRequest.to_dict"><code class="name flex">
+<span>def <span class="ident">to_dict</span></span>(<span>self) ‑> dict</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def to_dict(self) -&gt; dict:
+    result: dict = {}
+    result[&#34;resource_request&#34;] = to_class(ResourceRequestClass, self.resource_request)
+    return result</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+<dt id="event_schemas.apps.export_service.v1.resource_request.ResourceRequestClass"><code class="flex name class">
+<span>class <span class="ident">ResourceRequestClass</span></span>
+<span>(</span><span>application: str, export_request_uuid: uuid.UUID, filters: Optional[Dict[str, Any]], format: <a title="event_schemas.apps.export_service.v1.resource_request.Format" href="#event_schemas.apps.export_service.v1.resource_request.Format">Format</a>, resource: str, uuid: uuid.UUID, x_rh_identity: str)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>A request for data to be exported</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class ResourceRequestClass:
+    &#34;&#34;&#34;A request for data to be exported&#34;&#34;&#34;
+    &#34;&#34;&#34;The application being requested&#34;&#34;&#34;
+    application: str
+    &#34;&#34;&#34;The unique identifier of the export request that triggered the resource request&#34;&#34;&#34;
+    export_request_uuid: UUID
+    &#34;&#34;&#34;The filters to be applied to the data&#34;&#34;&#34;
+    filters: Optional[Dict[str, Any]]
+    &#34;&#34;&#34;The format of the data to be exported&#34;&#34;&#34;
+    format: Format
+    &#34;&#34;&#34;The resource to be exported&#34;&#34;&#34;
+    resource: str
+    &#34;&#34;&#34;A unique identifier for the resource request&#34;&#34;&#34;
+    uuid: UUID
+    &#34;&#34;&#34;The Base64-encoded JSON identity header of the user making the request&#34;&#34;&#34;
+    x_rh_identity: str
+
+    def __init__(self, application: str, export_request_uuid: UUID, filters: Optional[Dict[str, Any]], format: Format, resource: str, uuid: UUID, x_rh_identity: str) -&gt; None:
+        self.application = application
+        self.export_request_uuid = export_request_uuid
+        self.filters = filters
+        self.format = format
+        self.resource = resource
+        self.uuid = uuid
+        self.x_rh_identity = x_rh_identity
+
+    @staticmethod
+    def from_dict(obj: Any) -&gt; &#39;ResourceRequestClass&#39;:
+        assert isinstance(obj, dict)
+        application = from_str(obj.get(&#34;application&#34;))
+        export_request_uuid = UUID(obj.get(&#34;export_request_uuid&#34;))
+        filters = from_union([lambda x: from_dict(lambda x: x, x), from_none], obj.get(&#34;filters&#34;))
+        format = Format(obj.get(&#34;format&#34;))
+        resource = from_str(obj.get(&#34;resource&#34;))
+        uuid = UUID(obj.get(&#34;uuid&#34;))
+        x_rh_identity = from_str(obj.get(&#34;x-rh-identity&#34;))
+        return ResourceRequestClass(application, export_request_uuid, filters, format, resource, uuid, x_rh_identity)
+
+    def to_dict(self) -&gt; dict:
+        result: dict = {}
+        result[&#34;application&#34;] = from_str(self.application)
+        result[&#34;export_request_uuid&#34;] = str(self.export_request_uuid)
+        if self.filters is not None:
+            result[&#34;filters&#34;] = from_union([lambda x: from_dict(lambda x: x, x), from_none], self.filters)
+        result[&#34;format&#34;] = to_enum(Format, self.format)
+        result[&#34;resource&#34;] = from_str(self.resource)
+        result[&#34;uuid&#34;] = str(self.uuid)
+        result[&#34;x-rh-identity&#34;] = from_str(self.x_rh_identity)
+        return result</code></pre>
+</details>
+<h3>Class variables</h3>
+<dl>
+<dt id="event_schemas.apps.export_service.v1.resource_request.ResourceRequestClass.application"><code class="name">var <span class="ident">application</span> : str</code></dt>
+<dd>
+<div class="desc"><p>The unique identifier of the export request that triggered the resource request</p></div>
+</dd>
+<dt id="event_schemas.apps.export_service.v1.resource_request.ResourceRequestClass.export_request_uuid"><code class="name">var <span class="ident">export_request_uuid</span> : uuid.UUID</code></dt>
+<dd>
+<div class="desc"><p>The filters to be applied to the data</p></div>
+</dd>
+<dt id="event_schemas.apps.export_service.v1.resource_request.ResourceRequestClass.filters"><code class="name">var <span class="ident">filters</span> : Optional[Dict[str, Any]]</code></dt>
+<dd>
+<div class="desc"><p>The format of the data to be exported</p></div>
+</dd>
+<dt id="event_schemas.apps.export_service.v1.resource_request.ResourceRequestClass.format"><code class="name">var <span class="ident">format</span> : <a title="event_schemas.apps.export_service.v1.resource_request.Format" href="#event_schemas.apps.export_service.v1.resource_request.Format">Format</a></code></dt>
+<dd>
+<div class="desc"><p>The resource to be exported</p></div>
+</dd>
+<dt id="event_schemas.apps.export_service.v1.resource_request.ResourceRequestClass.resource"><code class="name">var <span class="ident">resource</span> : str</code></dt>
+<dd>
+<div class="desc"><p>A unique identifier for the resource request</p></div>
+</dd>
+<dt id="event_schemas.apps.export_service.v1.resource_request.ResourceRequestClass.uuid"><code class="name">var <span class="ident">uuid</span> : uuid.UUID</code></dt>
+<dd>
+<div class="desc"><p>The Base64-encoded JSON identity header of the user making the request</p></div>
+</dd>
+<dt id="event_schemas.apps.export_service.v1.resource_request.ResourceRequestClass.x_rh_identity"><code class="name">var <span class="ident">x_rh_identity</span> : str</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+<h3>Static methods</h3>
+<dl>
+<dt id="event_schemas.apps.export_service.v1.resource_request.ResourceRequestClass.from_dict"><code class="name flex">
+<span>def <span class="ident">from_dict</span></span>(<span>obj: Any) ‑> <a title="event_schemas.apps.export_service.v1.resource_request.ResourceRequestClass" href="#event_schemas.apps.export_service.v1.resource_request.ResourceRequestClass">ResourceRequestClass</a></span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def from_dict(obj: Any) -&gt; &#39;ResourceRequestClass&#39;:
+    assert isinstance(obj, dict)
+    application = from_str(obj.get(&#34;application&#34;))
+    export_request_uuid = UUID(obj.get(&#34;export_request_uuid&#34;))
+    filters = from_union([lambda x: from_dict(lambda x: x, x), from_none], obj.get(&#34;filters&#34;))
+    format = Format(obj.get(&#34;format&#34;))
+    resource = from_str(obj.get(&#34;resource&#34;))
+    uuid = UUID(obj.get(&#34;uuid&#34;))
+    x_rh_identity = from_str(obj.get(&#34;x-rh-identity&#34;))
+    return ResourceRequestClass(application, export_request_uuid, filters, format, resource, uuid, x_rh_identity)</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Methods</h3>
+<dl>
+<dt id="event_schemas.apps.export_service.v1.resource_request.ResourceRequestClass.to_dict"><code class="name flex">
+<span>def <span class="ident">to_dict</span></span>(<span>self) ‑> dict</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def to_dict(self) -&gt; dict:
+    result: dict = {}
+    result[&#34;application&#34;] = from_str(self.application)
+    result[&#34;export_request_uuid&#34;] = str(self.export_request_uuid)
+    if self.filters is not None:
+        result[&#34;filters&#34;] = from_union([lambda x: from_dict(lambda x: x, x), from_none], self.filters)
+    result[&#34;format&#34;] = to_enum(Format, self.format)
+    result[&#34;resource&#34;] = from_str(self.resource)
+    result[&#34;uuid&#34;] = str(self.uuid)
+    result[&#34;x-rh-identity&#34;] = from_str(self.x_rh_identity)
+    return result</code></pre>
+</details>
 </dd>
 </dl>
 </dd>
@@ -527,44 +543,45 @@ def from_dict(obj: Any) -&gt; &#39;ExportRequestClass&#39;:
 </li>
 <li><h3><a href="#header-functions">Functions</a></h3>
 <ul class="">
-<li><code><a title="event_schemas.apps.export_service.v1.export_request.export_request_from_dict" href="#event_schemas.apps.export_service.v1.export_request.export_request_from_dict">export_request_from_dict</a></code></li>
-<li><code><a title="event_schemas.apps.export_service.v1.export_request.export_request_to_dict" href="#event_schemas.apps.export_service.v1.export_request.export_request_to_dict">export_request_to_dict</a></code></li>
-<li><code><a title="event_schemas.apps.export_service.v1.export_request.from_dict" href="#event_schemas.apps.export_service.v1.export_request.from_dict">from_dict</a></code></li>
-<li><code><a title="event_schemas.apps.export_service.v1.export_request.from_none" href="#event_schemas.apps.export_service.v1.export_request.from_none">from_none</a></code></li>
-<li><code><a title="event_schemas.apps.export_service.v1.export_request.from_str" href="#event_schemas.apps.export_service.v1.export_request.from_str">from_str</a></code></li>
-<li><code><a title="event_schemas.apps.export_service.v1.export_request.from_union" href="#event_schemas.apps.export_service.v1.export_request.from_union">from_union</a></code></li>
-<li><code><a title="event_schemas.apps.export_service.v1.export_request.to_class" href="#event_schemas.apps.export_service.v1.export_request.to_class">to_class</a></code></li>
-<li><code><a title="event_schemas.apps.export_service.v1.export_request.to_enum" href="#event_schemas.apps.export_service.v1.export_request.to_enum">to_enum</a></code></li>
+<li><code><a title="event_schemas.apps.export_service.v1.resource_request.from_dict" href="#event_schemas.apps.export_service.v1.resource_request.from_dict">from_dict</a></code></li>
+<li><code><a title="event_schemas.apps.export_service.v1.resource_request.from_none" href="#event_schemas.apps.export_service.v1.resource_request.from_none">from_none</a></code></li>
+<li><code><a title="event_schemas.apps.export_service.v1.resource_request.from_str" href="#event_schemas.apps.export_service.v1.resource_request.from_str">from_str</a></code></li>
+<li><code><a title="event_schemas.apps.export_service.v1.resource_request.from_union" href="#event_schemas.apps.export_service.v1.resource_request.from_union">from_union</a></code></li>
+<li><code><a title="event_schemas.apps.export_service.v1.resource_request.resource_request_from_dict" href="#event_schemas.apps.export_service.v1.resource_request.resource_request_from_dict">resource_request_from_dict</a></code></li>
+<li><code><a title="event_schemas.apps.export_service.v1.resource_request.resource_request_to_dict" href="#event_schemas.apps.export_service.v1.resource_request.resource_request_to_dict">resource_request_to_dict</a></code></li>
+<li><code><a title="event_schemas.apps.export_service.v1.resource_request.to_class" href="#event_schemas.apps.export_service.v1.resource_request.to_class">to_class</a></code></li>
+<li><code><a title="event_schemas.apps.export_service.v1.resource_request.to_enum" href="#event_schemas.apps.export_service.v1.resource_request.to_enum">to_enum</a></code></li>
 </ul>
 </li>
 <li><h3><a href="#header-classes">Classes</a></h3>
 <ul>
 <li>
-<h4><code><a title="event_schemas.apps.export_service.v1.export_request.ExportRequest" href="#event_schemas.apps.export_service.v1.export_request.ExportRequest">ExportRequest</a></code></h4>
+<h4><code><a title="event_schemas.apps.export_service.v1.resource_request.Format" href="#event_schemas.apps.export_service.v1.resource_request.Format">Format</a></code></h4>
 <ul class="">
-<li><code><a title="event_schemas.apps.export_service.v1.export_request.ExportRequest.export_request" href="#event_schemas.apps.export_service.v1.export_request.ExportRequest.export_request">export_request</a></code></li>
-<li><code><a title="event_schemas.apps.export_service.v1.export_request.ExportRequest.from_dict" href="#event_schemas.apps.export_service.v1.export_request.ExportRequest.from_dict">from_dict</a></code></li>
-<li><code><a title="event_schemas.apps.export_service.v1.export_request.ExportRequest.to_dict" href="#event_schemas.apps.export_service.v1.export_request.ExportRequest.to_dict">to_dict</a></code></li>
+<li><code><a title="event_schemas.apps.export_service.v1.resource_request.Format.CSV" href="#event_schemas.apps.export_service.v1.resource_request.Format.CSV">CSV</a></code></li>
+<li><code><a title="event_schemas.apps.export_service.v1.resource_request.Format.JSON" href="#event_schemas.apps.export_service.v1.resource_request.Format.JSON">JSON</a></code></li>
 </ul>
 </li>
 <li>
-<h4><code><a title="event_schemas.apps.export_service.v1.export_request.ExportRequestClass" href="#event_schemas.apps.export_service.v1.export_request.ExportRequestClass">ExportRequestClass</a></code></h4>
+<h4><code><a title="event_schemas.apps.export_service.v1.resource_request.ResourceRequest" href="#event_schemas.apps.export_service.v1.resource_request.ResourceRequest">ResourceRequest</a></code></h4>
+<ul class="">
+<li><code><a title="event_schemas.apps.export_service.v1.resource_request.ResourceRequest.from_dict" href="#event_schemas.apps.export_service.v1.resource_request.ResourceRequest.from_dict">from_dict</a></code></li>
+<li><code><a title="event_schemas.apps.export_service.v1.resource_request.ResourceRequest.resource_request" href="#event_schemas.apps.export_service.v1.resource_request.ResourceRequest.resource_request">resource_request</a></code></li>
+<li><code><a title="event_schemas.apps.export_service.v1.resource_request.ResourceRequest.to_dict" href="#event_schemas.apps.export_service.v1.resource_request.ResourceRequest.to_dict">to_dict</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="event_schemas.apps.export_service.v1.resource_request.ResourceRequestClass" href="#event_schemas.apps.export_service.v1.resource_request.ResourceRequestClass">ResourceRequestClass</a></code></h4>
 <ul class="two-column">
-<li><code><a title="event_schemas.apps.export_service.v1.export_request.ExportRequestClass.application" href="#event_schemas.apps.export_service.v1.export_request.ExportRequestClass.application">application</a></code></li>
-<li><code><a title="event_schemas.apps.export_service.v1.export_request.ExportRequestClass.filters" href="#event_schemas.apps.export_service.v1.export_request.ExportRequestClass.filters">filters</a></code></li>
-<li><code><a title="event_schemas.apps.export_service.v1.export_request.ExportRequestClass.format" href="#event_schemas.apps.export_service.v1.export_request.ExportRequestClass.format">format</a></code></li>
-<li><code><a title="event_schemas.apps.export_service.v1.export_request.ExportRequestClass.from_dict" href="#event_schemas.apps.export_service.v1.export_request.ExportRequestClass.from_dict">from_dict</a></code></li>
-<li><code><a title="event_schemas.apps.export_service.v1.export_request.ExportRequestClass.resource" href="#event_schemas.apps.export_service.v1.export_request.ExportRequestClass.resource">resource</a></code></li>
-<li><code><a title="event_schemas.apps.export_service.v1.export_request.ExportRequestClass.to_dict" href="#event_schemas.apps.export_service.v1.export_request.ExportRequestClass.to_dict">to_dict</a></code></li>
-<li><code><a title="event_schemas.apps.export_service.v1.export_request.ExportRequestClass.uuid" href="#event_schemas.apps.export_service.v1.export_request.ExportRequestClass.uuid">uuid</a></code></li>
-<li><code><a title="event_schemas.apps.export_service.v1.export_request.ExportRequestClass.x_rh_identity" href="#event_schemas.apps.export_service.v1.export_request.ExportRequestClass.x_rh_identity">x_rh_identity</a></code></li>
-</ul>
-</li>
-<li>
-<h4><code><a title="event_schemas.apps.export_service.v1.export_request.Format" href="#event_schemas.apps.export_service.v1.export_request.Format">Format</a></code></h4>
-<ul class="">
-<li><code><a title="event_schemas.apps.export_service.v1.export_request.Format.CSV" href="#event_schemas.apps.export_service.v1.export_request.Format.CSV">CSV</a></code></li>
-<li><code><a title="event_schemas.apps.export_service.v1.export_request.Format.JSON" href="#event_schemas.apps.export_service.v1.export_request.Format.JSON">JSON</a></code></li>
+<li><code><a title="event_schemas.apps.export_service.v1.resource_request.ResourceRequestClass.application" href="#event_schemas.apps.export_service.v1.resource_request.ResourceRequestClass.application">application</a></code></li>
+<li><code><a title="event_schemas.apps.export_service.v1.resource_request.ResourceRequestClass.export_request_uuid" href="#event_schemas.apps.export_service.v1.resource_request.ResourceRequestClass.export_request_uuid">export_request_uuid</a></code></li>
+<li><code><a title="event_schemas.apps.export_service.v1.resource_request.ResourceRequestClass.filters" href="#event_schemas.apps.export_service.v1.resource_request.ResourceRequestClass.filters">filters</a></code></li>
+<li><code><a title="event_schemas.apps.export_service.v1.resource_request.ResourceRequestClass.format" href="#event_schemas.apps.export_service.v1.resource_request.ResourceRequestClass.format">format</a></code></li>
+<li><code><a title="event_schemas.apps.export_service.v1.resource_request.ResourceRequestClass.from_dict" href="#event_schemas.apps.export_service.v1.resource_request.ResourceRequestClass.from_dict">from_dict</a></code></li>
+<li><code><a title="event_schemas.apps.export_service.v1.resource_request.ResourceRequestClass.resource" href="#event_schemas.apps.export_service.v1.resource_request.ResourceRequestClass.resource">resource</a></code></li>
+<li><code><a title="event_schemas.apps.export_service.v1.resource_request.ResourceRequestClass.to_dict" href="#event_schemas.apps.export_service.v1.resource_request.ResourceRequestClass.to_dict">to_dict</a></code></li>
+<li><code><a title="event_schemas.apps.export_service.v1.resource_request.ResourceRequestClass.uuid" href="#event_schemas.apps.export_service.v1.resource_request.ResourceRequestClass.uuid">uuid</a></code></li>
+<li><code><a title="event_schemas.apps.export_service.v1.resource_request.ResourceRequestClass.x_rh_identity" href="#event_schemas.apps.export_service.v1.resource_request.ResourceRequestClass.x_rh_identity">x_rh_identity</a></code></li>
 </ul>
 </li>
 </ul>

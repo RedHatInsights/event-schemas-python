@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.1.6](https://github.com/RedHatInsights/event-schemas-python/compare/v0.1.5...v0.1.6) (2023-05-25)
+
+
+### Bug Fixes
+
+* **deps:** bump api from `6d087fa` to `bb5a18a` ([184354e](https://github.com/RedHatInsights/event-schemas-python/commit/184354e379822276ceb988052de9127ca1d8b8a9))
+* Regenerate types ([126c052](https://github.com/RedHatInsights/event-schemas-python/commit/126c05239990e8971bb89402f58a61cffff3ee3f))
+
 ## [0.1.5](https://github.com/RedHatInsights/event-schemas-python/compare/v0.1.4...v0.1.5) (2023-05-10)
 
 

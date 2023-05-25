@@ -1,6 +1,6 @@
 from enum import Enum
-from typing import Dict, Any, Optional, TypeVar, Callable, Type, cast
 from uuid import UUID
+from typing import Dict, Any, Optional, TypeVar, Callable, Type, cast
 
 
 T = TypeVar("T")
@@ -47,23 +47,26 @@ class Format(Enum):
     JSON = "json"
 
 
-class ExportRequestClass:
+class ResourceRequestClass:
     """A request for data to be exported"""
     """The application being requested"""
     application: str
+    """The unique identifier of the export request that triggered the resource request"""
+    export_request_uuid: UUID
     """The filters to be applied to the data"""
     filters: Optional[Dict[str, Any]]
     """The format of the data to be exported"""
     format: Format
     """The resource to be exported"""
     resource: str
-    """A unique identifier for the request"""
+    """A unique identifier for the resource request"""
     uuid: UUID
     """The Base64-encoded JSON identity header of the user making the request"""
     x_rh_identity: str
 
-    def __init__(self, application: str, filters: Optional[Dict[str, Any]], format: Format, resource: str, uuid: UUID, x_rh_identity: str) -> None:
+    def __init__(self, application: str, export_request_uuid: UUID, filters: Optional[Dict[str, Any]], format: Format, resource: str, uuid: UUID, x_rh_identity: str) -> None:
         self.application = application
+        self.export_request_uuid = export_request_uuid
         self.filters = filters
         self.format = format
         self.resource = resource
@@ -71,19 +74,21 @@ class ExportRequestClass:
         self.x_rh_identity = x_rh_identity
 
     @staticmethod
-    def from_dict(obj: Any) -> 'ExportRequestClass':
+    def from_dict(obj: Any) -> 'ResourceRequestClass':
         assert isinstance(obj, dict)
         application = from_str(obj.get("application"))
+        export_request_uuid = UUID(obj.get("export_request_uuid"))
         filters = from_union([lambda x: from_dict(lambda x: x, x), from_none], obj.get("filters"))
         format = Format(obj.get("format"))
         resource = from_str(obj.get("resource"))
         uuid = UUID(obj.get("uuid"))
         x_rh_identity = from_str(obj.get("x-rh-identity"))
-        return ExportRequestClass(application, filters, format, resource, uuid, x_rh_identity)
+        return ResourceRequestClass(application, export_request_uuid, filters, format, resource, uuid, x_rh_identity)
 
     def to_dict(self) -> dict:
         result: dict = {}
         result["application"] = from_str(self.application)
+        result["export_request_uuid"] = str(self.export_request_uuid)
         if self.filters is not None:
             result["filters"] = from_union([lambda x: from_dict(lambda x: x, x), from_none], self.filters)
         result["format"] = to_enum(Format, self.format)
@@ -93,29 +98,29 @@ class ExportRequestClass:
         return result
 
 
-class ExportRequest:
-    """Event data for data export requests."""
+class ResourceRequest:
+    """Event data for data export requests"""
     """A request for data to be exported"""
-    export_request: ExportRequestClass
+    resource_request: ResourceRequestClass
 
-    def __init__(self, export_request: ExportRequestClass) -> None:
-        self.export_request = export_request
+    def __init__(self, resource_request: ResourceRequestClass) -> None:
+        self.resource_request = resource_request
 
     @staticmethod
-    def from_dict(obj: Any) -> 'ExportRequest':
+    def from_dict(obj: Any) -> 'ResourceRequest':
         assert isinstance(obj, dict)
-        export_request = ExportRequestClass.from_dict(obj.get("exportRequest"))
-        return ExportRequest(export_request)
+        resource_request = ResourceRequestClass.from_dict(obj.get("resource_request"))
+        return ResourceRequest(resource_request)
 
     def to_dict(self) -> dict:
         result: dict = {}
-        result["exportRequest"] = to_class(ExportRequestClass, self.export_request)
+        result["resource_request"] = to_class(ResourceRequestClass, self.resource_request)
         return result
 
 
-def export_request_from_dict(s: Any) -> ExportRequest:
-    return ExportRequest.from_dict(s)
+def resource_request_from_dict(s: Any) -> ResourceRequest:
+    return ResourceRequest.from_dict(s)
 
 
-def export_request_to_dict(x: ExportRequest) -> Any:
-    return to_class(ExportRequest, x)
+def resource_request_to_dict(x: ResourceRequest) -> Any:
+    return to_class(ResourceRequest, x)

@@ -26,14 +26,19 @@
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">from typing import Optional, List, Any, TypeVar, Callable, Type, cast
+<pre><code class="python">from typing import List, Optional, Any, TypeVar, Callable, Type, cast
 
 
 T = TypeVar(&#34;T&#34;)
 
 
-def from_bool(x: Any) -&gt; bool:
-    assert isinstance(x, bool)
+def from_list(f: Callable[[Any], T], x: Any) -&gt; List[T]:
+    assert isinstance(x, list)
+    return [f(y) for y in x]
+
+
+def from_str(x: Any) -&gt; str:
+    assert isinstance(x, str)
     return x
 
 
@@ -51,13 +56,8 @@ def from_union(fs, x):
     assert False
 
 
-def from_list(f: Callable[[Any], T], x: Any) -&gt; List[T]:
-    assert isinstance(x, list)
-    return [f(y) for y in x]
-
-
-def from_str(x: Any) -&gt; str:
-    assert isinstance(x, str)
+def from_bool(x: Any) -&gt; bool:
+    assert isinstance(x, bool)
     return x
 
 
@@ -68,6 +68,10 @@ def to_class(c: Type[T], x: Any) -&gt; dict:
 
 class Recipients:
     &#34;&#34;&#34;Notification recipients. Should be in a top-level field named &#34;notification_recipients\&#34;&#34;&#34;&#34;
+    &#34;&#34;&#34;List of emails to direct the notification to. This won’t override notification&#39;s
+    administrators settings. Emails list will be merged with other settings.
+    &#34;&#34;&#34;
+    emails: Optional[List[str]]
     &#34;&#34;&#34;Setting to true ignores all the user preferences on this Recipient setting (It doesn’t
     affect other configuration that an Administrator sets on their Notification settings).
     Setting to false honors the user preferences.
@@ -82,7 +86,8 @@ class Recipients:
     &#34;&#34;&#34;
     users: Optional[List[str]]
 
-    def __init__(self, ignore_user_preferences: Optional[bool], only_admins: Optional[bool], users: Optional[List[str]]) -&gt; None:
+    def __init__(self, emails: Optional[List[str]], ignore_user_preferences: Optional[bool], only_admins: Optional[bool], users: Optional[List[str]]) -&gt; None:
+        self.emails = emails
         self.ignore_user_preferences = ignore_user_preferences
         self.only_admins = only_admins
         self.users = users
@@ -90,13 +95,16 @@ class Recipients:
     @staticmethod
     def from_dict(obj: Any) -&gt; &#39;Recipients&#39;:
         assert isinstance(obj, dict)
+        emails = from_union([lambda x: from_list(from_str, x), from_none], obj.get(&#34;emails&#34;))
         ignore_user_preferences = from_union([from_bool, from_none], obj.get(&#34;ignore_user_preferences&#34;))
         only_admins = from_union([from_bool, from_none], obj.get(&#34;only_admins&#34;))
         users = from_union([lambda x: from_list(from_str, x), from_none], obj.get(&#34;users&#34;))
-        return Recipients(ignore_user_preferences, only_admins, users)
+        return Recipients(emails, ignore_user_preferences, only_admins, users)
 
     def to_dict(self) -&gt; dict:
         result: dict = {}
+        if self.emails is not None:
+            result[&#34;emails&#34;] = from_union([lambda x: from_list(from_str, x), from_none], self.emails)
         if self.ignore_user_preferences is not None:
             result[&#34;ignore_user_preferences&#34;] = from_union([from_bool, from_none], self.ignore_user_preferences)
         if self.only_admins is not None:
@@ -345,7 +353,7 @@ def from_dict(obj: Any) -&gt; &#39;Notification&#39;:
 </dd>
 <dt id="event_schemas.core.v1.notification.Recipients"><code class="flex name class">
 <span>class <span class="ident">Recipients</span></span>
-<span>(</span><span>ignore_user_preferences: Optional[bool], only_admins: Optional[bool], users: Optional[List[str]])</span>
+<span>(</span><span>emails: Optional[List[str]], ignore_user_preferences: Optional[bool], only_admins: Optional[bool], users: Optional[List[str]])</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Notification recipients. Should be in a top-level field named "notification_recipients"</p></div>
@@ -355,6 +363,10 @@ def from_dict(obj: Any) -&gt; &#39;Notification&#39;:
 </summary>
 <pre><code class="python">class Recipients:
     &#34;&#34;&#34;Notification recipients. Should be in a top-level field named &#34;notification_recipients\&#34;&#34;&#34;&#34;
+    &#34;&#34;&#34;List of emails to direct the notification to. This won’t override notification&#39;s
+    administrators settings. Emails list will be merged with other settings.
+    &#34;&#34;&#34;
+    emails: Optional[List[str]]
     &#34;&#34;&#34;Setting to true ignores all the user preferences on this Recipient setting (It doesn’t
     affect other configuration that an Administrator sets on their Notification settings).
     Setting to false honors the user preferences.
@@ -369,7 +381,8 @@ def from_dict(obj: Any) -&gt; &#39;Notification&#39;:
     &#34;&#34;&#34;
     users: Optional[List[str]]
 
-    def __init__(self, ignore_user_preferences: Optional[bool], only_admins: Optional[bool], users: Optional[List[str]]) -&gt; None:
+    def __init__(self, emails: Optional[List[str]], ignore_user_preferences: Optional[bool], only_admins: Optional[bool], users: Optional[List[str]]) -&gt; None:
+        self.emails = emails
         self.ignore_user_preferences = ignore_user_preferences
         self.only_admins = only_admins
         self.users = users
@@ -377,13 +390,16 @@ def from_dict(obj: Any) -&gt; &#39;Notification&#39;:
     @staticmethod
     def from_dict(obj: Any) -&gt; &#39;Recipients&#39;:
         assert isinstance(obj, dict)
+        emails = from_union([lambda x: from_list(from_str, x), from_none], obj.get(&#34;emails&#34;))
         ignore_user_preferences = from_union([from_bool, from_none], obj.get(&#34;ignore_user_preferences&#34;))
         only_admins = from_union([from_bool, from_none], obj.get(&#34;only_admins&#34;))
         users = from_union([lambda x: from_list(from_str, x), from_none], obj.get(&#34;users&#34;))
-        return Recipients(ignore_user_preferences, only_admins, users)
+        return Recipients(emails, ignore_user_preferences, only_admins, users)
 
     def to_dict(self) -&gt; dict:
         result: dict = {}
+        if self.emails is not None:
+            result[&#34;emails&#34;] = from_union([lambda x: from_list(from_str, x), from_none], self.emails)
         if self.ignore_user_preferences is not None:
             result[&#34;ignore_user_preferences&#34;] = from_union([from_bool, from_none], self.ignore_user_preferences)
         if self.only_admins is not None:
@@ -394,6 +410,12 @@ def from_dict(obj: Any) -&gt; &#39;Notification&#39;:
 </details>
 <h3>Class variables</h3>
 <dl>
+<dt id="event_schemas.core.v1.notification.Recipients.emails"><code class="name">var <span class="ident">emails</span> : Optional[List[str]]</code></dt>
+<dd>
+<div class="desc"><p>Setting to true ignores all the user preferences on this Recipient setting (It doesn’t
+affect other configuration that an Administrator sets on their Notification settings).
+Setting to false honors the user preferences.</p></div>
+</dd>
 <dt id="event_schemas.core.v1.notification.Recipients.ignore_user_preferences"><code class="name">var <span class="ident">ignore_user_preferences</span> : Optional[bool]</code></dt>
 <dd>
 <div class="desc"><p>Setting to true sends an email to the administrators of the account. Setting to false
@@ -423,10 +445,11 @@ administrators settings. Users list will be merged with other settings.</p></div
 <pre><code class="python">@staticmethod
 def from_dict(obj: Any) -&gt; &#39;Recipients&#39;:
     assert isinstance(obj, dict)
+    emails = from_union([lambda x: from_list(from_str, x), from_none], obj.get(&#34;emails&#34;))
     ignore_user_preferences = from_union([from_bool, from_none], obj.get(&#34;ignore_user_preferences&#34;))
     only_admins = from_union([from_bool, from_none], obj.get(&#34;only_admins&#34;))
     users = from_union([lambda x: from_list(from_str, x), from_none], obj.get(&#34;users&#34;))
-    return Recipients(ignore_user_preferences, only_admins, users)</code></pre>
+    return Recipients(emails, ignore_user_preferences, only_admins, users)</code></pre>
 </details>
 </dd>
 </dl>
@@ -443,6 +466,8 @@ def from_dict(obj: Any) -&gt; &#39;Recipients&#39;:
 </summary>
 <pre><code class="python">def to_dict(self) -&gt; dict:
     result: dict = {}
+    if self.emails is not None:
+        result[&#34;emails&#34;] = from_union([lambda x: from_list(from_str, x), from_none], self.emails)
     if self.ignore_user_preferences is not None:
         result[&#34;ignore_user_preferences&#34;] = from_union([from_bool, from_none], self.ignore_user_preferences)
     if self.only_admins is not None:
@@ -493,6 +518,7 @@ def from_dict(obj: Any) -&gt; &#39;Recipients&#39;:
 <li>
 <h4><code><a title="event_schemas.core.v1.notification.Recipients" href="#event_schemas.core.v1.notification.Recipients">Recipients</a></code></h4>
 <ul class="">
+<li><code><a title="event_schemas.core.v1.notification.Recipients.emails" href="#event_schemas.core.v1.notification.Recipients.emails">emails</a></code></li>
 <li><code><a title="event_schemas.core.v1.notification.Recipients.from_dict" href="#event_schemas.core.v1.notification.Recipients.from_dict">from_dict</a></code></li>
 <li><code><a title="event_schemas.core.v1.notification.Recipients.ignore_user_preferences" href="#event_schemas.core.v1.notification.Recipients.ignore_user_preferences">ignore_user_preferences</a></code></li>
 <li><code><a title="event_schemas.core.v1.notification.Recipients.only_admins" href="#event_schemas.core.v1.notification.Recipients.only_admins">only_admins</a></code></li>

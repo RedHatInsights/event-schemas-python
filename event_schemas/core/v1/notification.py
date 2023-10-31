@@ -1,11 +1,16 @@
-from typing import Optional, List, Any, TypeVar, Callable, Type, cast
+from typing import List, Optional, Any, TypeVar, Callable, Type, cast
 
 
 T = TypeVar("T")
 
 
-def from_bool(x: Any) -> bool:
-    assert isinstance(x, bool)
+def from_list(f: Callable[[Any], T], x: Any) -> List[T]:
+    assert isinstance(x, list)
+    return [f(y) for y in x]
+
+
+def from_str(x: Any) -> str:
+    assert isinstance(x, str)
     return x
 
 
@@ -23,13 +28,8 @@ def from_union(fs, x):
     assert False
 
 
-def from_list(f: Callable[[Any], T], x: Any) -> List[T]:
-    assert isinstance(x, list)
-    return [f(y) for y in x]
-
-
-def from_str(x: Any) -> str:
-    assert isinstance(x, str)
+def from_bool(x: Any) -> bool:
+    assert isinstance(x, bool)
     return x
 
 
@@ -40,6 +40,10 @@ def to_class(c: Type[T], x: Any) -> dict:
 
 class Recipients:
     """Notification recipients. Should be in a top-level field named "notification_recipients\""""
+    """List of emails to direct the notification to. This won’t override notification's
+    administrators settings. Emails list will be merged with other settings.
+    """
+    emails: Optional[List[str]]
     """Setting to true ignores all the user preferences on this Recipient setting (It doesn’t
     affect other configuration that an Administrator sets on their Notification settings).
     Setting to false honors the user preferences.
@@ -54,7 +58,8 @@ class Recipients:
     """
     users: Optional[List[str]]
 
-    def __init__(self, ignore_user_preferences: Optional[bool], only_admins: Optional[bool], users: Optional[List[str]]) -> None:
+    def __init__(self, emails: Optional[List[str]], ignore_user_preferences: Optional[bool], only_admins: Optional[bool], users: Optional[List[str]]) -> None:
+        self.emails = emails
         self.ignore_user_preferences = ignore_user_preferences
         self.only_admins = only_admins
         self.users = users
@@ -62,13 +67,16 @@ class Recipients:
     @staticmethod
     def from_dict(obj: Any) -> 'Recipients':
         assert isinstance(obj, dict)
+        emails = from_union([lambda x: from_list(from_str, x), from_none], obj.get("emails"))
         ignore_user_preferences = from_union([from_bool, from_none], obj.get("ignore_user_preferences"))
         only_admins = from_union([from_bool, from_none], obj.get("only_admins"))
         users = from_union([lambda x: from_list(from_str, x), from_none], obj.get("users"))
-        return Recipients(ignore_user_preferences, only_admins, users)
+        return Recipients(emails, ignore_user_preferences, only_admins, users)
 
     def to_dict(self) -> dict:
         result: dict = {}
+        if self.emails is not None:
+            result["emails"] = from_union([lambda x: from_list(from_str, x), from_none], self.emails)
         if self.ignore_user_preferences is not None:
             result["ignore_user_preferences"] = from_union([from_bool, from_none], self.ignore_user_preferences)
         if self.only_admins is not None:

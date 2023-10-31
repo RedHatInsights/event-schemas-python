@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.1.7](https://github.com/RedHatInsights/event-schemas-python/compare/v0.1.6...v0.1.7) (2023-10-31)
+
+
+### Bug Fixes
+
+* **deps:** bump api from `2a6f76d` to `f7bc074` ([60e283b](https://github.com/RedHatInsights/event-schemas-python/commit/60e283be3d5548b3680732dc74dc426901ca8554))
+* **deps:** bump api from `a57120f` to `2a6f76d` ([afcd31c](https://github.com/RedHatInsights/event-schemas-python/commit/afcd31c0538a03f6748899f6d7fdf2130eb1a6ad))
+* **deps:** bump api from `bb5a18a` to `a57120f` ([3a304c8](https://github.com/RedHatInsights/event-schemas-python/commit/3a304c8e6cbaefdc4b6f9d819123230a56f895be))
+* **deps:** bump cloudevents from 1.10.0 to 1.10.1 ([9462fad](https://github.com/RedHatInsights/event-schemas-python/commit/9462fadf31e7cbb06e00f6b2d2d938307de21650))
+* **deps:** bump cloudevents from 1.9.0 to 1.10.0 ([7d9cf75](https://github.com/RedHatInsights/event-schemas-python/commit/7d9cf751920c86be60566fe3d09caaaf0975f4b1))
+* Regenerate types ([3a1905b](https://github.com/RedHatInsights/event-schemas-python/commit/3a1905b251e23afd1514e6579ea1d723ba9d63cb))
+
 ## [0.1.6](https://github.com/RedHatInsights/event-schemas-python/compare/v0.1.5...v0.1.6) (2023-05-25)
 
 
